@@ -1,6 +1,6 @@
 package HoldemOffline;
 
-public class Card implements Comparable{
+public class Card implements Comparable<Card> {
 
     private final Rank rank;
     private final Suit suit;
@@ -22,14 +22,10 @@ public class Card implements Comparable{
     }
 
     @Override
-    public int compareTo(Object o) {
-        if(o == null)
-            throw new NullPointerException();
-        if(!(o instanceof Card))
-            throw new ClassCastException();
-        Card c = (Card) o;
+    public int compareTo(Card c) {
         if(rank.compareTo(c.rank) != 0)
             return rank.compareTo(c.rank);
+
         return suit.compareTo(c.suit);
     }
 
