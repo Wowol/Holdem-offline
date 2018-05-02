@@ -36,8 +36,9 @@ public class Flush implements Function<ArrayList<Card>, Hand> {
                     maxSuit = list;
                 } else {
                     for (int i = 0; i < 5; i++) {
-                        if (list.get(i).compareTo(maxSuit.get(i)) > 0) {
+                        if (list.get(i).getRank().compareTo(maxSuit.get(i).getRank()) > 0) {
                             maxSuit = list;
+                            break;
                         }
                     }
                 }
