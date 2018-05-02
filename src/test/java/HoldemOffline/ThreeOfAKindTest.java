@@ -21,7 +21,17 @@ public class ThreeOfAKindTest {
                 new Card(Rank.ACE, Suit.DIAMOND),
                 new Card(Rank.TWO, Suit.DIAMOND)
         ));
-        assertEquals(new ThreeOfAKind().apply(cards).getHandName(), HandName.THREE_OF_A_KIND);
+        Hand h = new ThreeOfAKind().apply(cards);
+        assertEquals(h.getHandName(), HandName.THREE_OF_A_KIND);
+        assertEquals(Arrays.asList(
+                new Card(Rank.FIVE, Suit.SPADE),
+                new Card(Rank.FIVE, Suit.HEART),
+                new Card(Rank.FIVE, Suit.DIAMOND)
+        ), h.getHandCards());
+        assertEquals(Arrays.asList(
+                new Card(Rank.ACE, Suit.DIAMOND),
+                new Card(Rank.KING, Suit.SPADE)
+        ), h.getKickers());
     }
 
     @Test
@@ -66,7 +76,15 @@ public class ThreeOfAKindTest {
         Hand h = new ThreeOfAKind().apply(cards);
         assertNotNull(h);
         assertEquals(5, h.getHandCards().size() + h.getKickers().size());
+        assertEquals(Arrays.asList(
+                new Card(Rank.ACE, Suit.SPADE),
+                new Card(Rank.ACE, Suit.HEART),
+                new Card(Rank.ACE, Suit.DIAMOND)
+        ), h.getHandCards());
+        assertEquals(Arrays.asList(
+                new Card(Rank.KING, Suit.SPADE),
+                new Card(Rank.QUEEN, Suit.CLUB)
+        ), h.getKickers());
     }
-
 
 }
