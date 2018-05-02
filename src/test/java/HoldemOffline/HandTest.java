@@ -8,7 +8,7 @@ import static org.junit.Assert.assertEquals;
 
 public class HandTest {
     @Test
-    public void test1(){
+    public void test1() {
         ArrayList<Card> cards = new ArrayList<>();
         cards.add(new Card(Rank.NINE, Suit.HEART));
         cards.add(new Card(Rank.NINE, Suit.SPADE));
@@ -25,6 +25,6 @@ public class HandTest {
         kickers2.add(new Card(Rank.ACE, Suit.SPADE));
         kickers2.add(new Card(Rank.QUEEN, Suit.DIAMOND));
         Hand b = new Hand(HandName.ONE_PAIR, cards2, kickers2);
-        assertEquals(a.compareTo(b), -1);
+        assertEquals(-1, a.compareTo(b));
     }
 }

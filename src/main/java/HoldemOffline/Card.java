@@ -23,14 +23,23 @@ public class Card implements Comparable<Card> {
 
     @Override
     public int compareTo(Card c) {
-        if(rank != c.rank)
+        if (rank != c.rank)
             return rank.compareTo(c.rank);
 
         return suit.compareTo(c.suit);
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return rank.toString() + " " + suit.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Card)) {
+            return false;
+        }
+        Card c = (Card) o;
+        return rank == c.rank && suit == c.suit;
     }
 }

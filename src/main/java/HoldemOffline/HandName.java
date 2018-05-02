@@ -1,7 +1,6 @@
 package HoldemOffline;
 
 import java.util.ArrayList;
-import java.util.function.Function;
 
 public enum HandName {
     HIGH_CARD {
@@ -21,7 +20,7 @@ public enum HandName {
     TWO_PAIR {
         @Override
         public Hand checkMe(ArrayList<Card> cards) {
-            return null;
+            return new TwoPair().apply(cards);
         }
     },
 
