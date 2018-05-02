@@ -26,9 +26,7 @@ public enum HandName {
 
     THREE_OF_A_KIND {
         @Override
-        public Hand checkMe(ArrayList<Card> cards) {
-            return null;
-        }
+        public Hand checkMe(ArrayList<Card> cards) { return new ThreeOfAKind().apply(cards); }
     },
 
     STRAIGHT {

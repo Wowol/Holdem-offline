@@ -8,7 +8,7 @@ public class OnePair implements Function<ArrayList<Card>, Hand> {
 
     @Override
     public Hand apply(ArrayList<Card> cards) {
-        if (cards.size() < 5)
+        if (cards == null || cards.size() < 5)
             throw new IllegalArgumentException();
 
         if (Hand.checkHandToGiven(cards, HandName.ONE_PAIR))
