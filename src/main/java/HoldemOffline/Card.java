@@ -1,6 +1,6 @@
 package HoldemOffline;
 
-public class Card {
+public class Card implements Comparable<Card> {
 
     private final Rank rank;
     private final Suit suit;
@@ -19,5 +19,18 @@ public class Card {
 
     public Suit getSuit() {
         return suit;
+    }
+
+    @Override
+    public int compareTo(Card c) {
+        if(rank != c.rank)
+            return rank.compareTo(c.rank);
+
+        return suit.compareTo(c.suit);
+    }
+
+    @Override
+    public String toString(){
+        return rank.toString() + " " + suit.toString();
     }
 }
