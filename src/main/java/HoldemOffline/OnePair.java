@@ -6,9 +6,15 @@ import java.util.function.Function;
 
 public class OnePair implements Function<ArrayList<Card>, Hand> {
     @Override
-    @SuppressWarnings("unchecked")
     public Hand apply(ArrayList<Card> cards) {
+        if(cards.size() < 5)
+            throw new IllegalArgumentException();
+
+        if(Hand.checkHandToGiven(cards, HandName.ONE_PAIR))
+            return null;
+
         ArrayList<Card> handCards = new ArrayList<>();
+        @SuppressWarnings("unchecked")
         ArrayList<Card> tempCards = (ArrayList<Card>) cards.clone();
         Collections.sort(tempCards);
 

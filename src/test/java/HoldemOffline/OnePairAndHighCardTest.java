@@ -14,25 +14,38 @@ public class OnePairAndHighCardTest {
         ArrayList<Card> cards = new ArrayList<>();
         cards.add(new Card(Rank.TWO, Suit.SPADE));
         cards.add(new Card(Rank.THREE, Suit.HEART));
-        assertEquals(Hand.checkHand(cards).toString(), "HIGH_CARD[THREE HEART][TWO SPADE]");
+        cards.add(new Card(Rank.FOUR, Suit.HEART));
+        cards.add(new Card(Rank.SEVEN, Suit.HEART));
+        cards.add(new Card(Rank.NINE, Suit.HEART));
+        //System.out.println(new HighCard().apply(cards));
+        assertEquals(Hand.checkHand(cards).getHandCards().toString(), "[NINE HEART]");
     }
 
     @Test
-    public void basicPair(){
+    public void basicPair1(){
         ArrayList<Card> cards = new ArrayList<>();
         cards.add(new Card(Rank.TWO, Suit.SPADE));
-        cards.add(new Card(Rank.TWO, Suit.HEART));
-        assertEquals(Hand.checkHand(cards).toString(), "ONE_PAIR[TWO SPADE, TWO HEART][]");
+        cards.add(new Card(Rank.THREE, Suit.HEART));
+        cards.add(new Card(Rank.FOUR, Suit.HEART));
+        cards.add(new Card(Rank.SEVEN, Suit.HEART));
+        cards.add(new Card(Rank.NINE, Suit.HEART));
+        //System.out.println(new HighCard().apply(cards));
+        assertEquals(new OnePair().apply(cards), null);
     }
 
     @Test
     public void basicPair2(){
         ArrayList<Card> cards = new ArrayList<>();
         cards.add(new Card(Rank.TWO, Suit.SPADE));
-        cards.add(new Card(Rank.THREE, Suit.HEART));
         cards.add(new Card(Rank.TWO, Suit.HEART));
-        assertEquals(Hand.checkHand(cards).toString(), "ONE_PAIR[TWO SPADE, TWO HEART][THREE HEART]");
+        cards.add(new Card(Rank.FOUR, Suit.HEART));
+        cards.add(new Card(Rank.SEVEN, Suit.HEART));
+        cards.add(new Card(Rank.NINE, Suit.HEART));
+        assertEquals(new HighCard().apply(cards), null);
+        assertEquals(Hand.checkHand(cards).getHandName(), HandName.ONE_PAIR);
+        assertEquals(Hand.checkHand(cards).getHandCards().toString(), "[TWO HEART, TWO SPADE]");
     }
+
 
     @Test(expected = IllegalArgumentException.class)
     public void exception(){
