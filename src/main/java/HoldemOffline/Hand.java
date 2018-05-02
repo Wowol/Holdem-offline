@@ -53,16 +53,16 @@ public class Hand implements Comparable<Hand> {
 
     @Override
     public int compareTo(Hand h) {
-        if (handName.compareTo(h.handName) != 0)
+        if (handName != h.handName)
             return handName.compareTo(h.handName);
 
         for (int i = handCards.size() - 1; i >= 0; i--) {
-            if (handCards.get(i).getRank().compareTo(h.handCards.get(i).getRank()) != 0)
+            if (handCards.get(i).getRank() != h.handCards.get(i).getRank())
                 return handCards.get(i).getRank().compareTo(h.handCards.get(i).getRank());
         }
 
         for (int i = kickers.size() - 1; i >= 0; i--) {
-            if (kickers.get(i).getRank().compareTo(h.kickers.get(i).getRank()) != 0)
+            if (kickers.get(i).getRank() != h.kickers.get(i).getRank())
                 return kickers.get(i).getRank().compareTo(h.kickers.get(i).getRank());
         }
 

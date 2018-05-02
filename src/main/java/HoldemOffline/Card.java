@@ -23,7 +23,7 @@ public class Card implements Comparable<Card> {
 
     @Override
     public int compareTo(Card c) {
-        if(rank.compareTo(c.rank) != 0)
+        if(rank != c.rank)
             return rank.compareTo(c.rank);
 
         return suit.compareTo(c.suit);
