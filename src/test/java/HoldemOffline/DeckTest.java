@@ -23,22 +23,22 @@ public class DeckTest {
     @Test
     public void deckDefaultSizeTest() {
         Deck deck = new Deck();
-        assertEquals(deck.getSize(), deck.DEFAULT_DECK_SIZE);
+        assertEquals(Deck.DEFAULT_DECK_SIZE, deck.getSize());
         deck.peek();
-        assertEquals(deck.getSize(), deck.DEFAULT_DECK_SIZE);
+        assertEquals(Deck.DEFAULT_DECK_SIZE, deck.getSize());
         deck.pop();
-        assertEquals(deck.getSize(), deck.DEFAULT_DECK_SIZE - 1);
+        assertEquals(Deck.DEFAULT_DECK_SIZE - 1, deck.getSize());
     }
 
     @Test
     public void deckCustomSizeTest() {
         int size = 24;
         Deck deck = new Deck(size);
-        assertEquals(deck.getSize(), size);
+        assertEquals(size, deck.getSize());
         deck.peek();
-        assertEquals(deck.getSize(), size);
+        assertEquals(size, deck.getSize());
         deck.pop();
-        assertEquals(deck.getSize(), size - 1);
+        assertEquals(size -1, deck.getSize());
     }
 
     @Test(expected = IllegalStateException.class)

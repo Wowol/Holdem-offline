@@ -2,7 +2,6 @@ package HoldemOffline;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.function.Function;
 
 public class Hand implements Comparable<Hand> {
 
@@ -12,11 +11,19 @@ public class Hand implements Comparable<Hand> {
 
     @SuppressWarnings("unchecked")
     public Hand(HandName handName, ArrayList<Card> handCards, ArrayList<Card> kickers) {
+        if (handName == null || handCards == null || kickers == null) {
+            throw new IllegalArgumentException();
+        }
+
+        if (handCards.size() + kickers.size() != 5) {
+            throw new IllegalArgumentException("Hand must contain exactly 5 cards");
+        }
+
         this.handName = handName;
         this.handCards = (ArrayList<Card>) handCards.clone();
-        Collections.sort(this.handCards);
+        Collections.sort(this.handCards, Collections.reverseOrder());
         this.kickers = (ArrayList<Card>) kickers.clone();
-        Collections.sort(this.kickers);
+        Collections.sort(this.kickers, Collections.reverseOrder());
     }
 
     public static boolean checkHandToGiven(ArrayList<Card> cards, HandName given) {
@@ -56,12 +63,12 @@ public class Hand implements Comparable<Hand> {
         if (handName != h.handName)
             return handName.compareTo(h.handName);
 
-        for (int i = handCards.size() - 1; i >= 0; i--) {
+        for (int i = 0; i < handCards.size() - 1; i++) {
             if (handCards.get(i).getRank() != h.handCards.get(i).getRank())
                 return handCards.get(i).getRank().compareTo(h.handCards.get(i).getRank());
         }
 
-        for (int i = kickers.size() - 1; i >= 0; i--) {
+        for (int i = 0; i < kickers.size(); i++) {
             if (kickers.get(i).getRank() != h.kickers.get(i).getRank())
                 return kickers.get(i).getRank().compareTo(h.kickers.get(i).getRank());
         }
