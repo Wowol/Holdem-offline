@@ -38,9 +38,7 @@ public enum HandName {
 
     FLUSH {
         @Override
-        public Hand checkMe(ArrayList<Card> cards) {
-            return null;
-        }
+        public Hand checkMe(ArrayList<Card> cards) { return new Flush().apply(cards); }
     },
 
     FULL_HOUSE {
