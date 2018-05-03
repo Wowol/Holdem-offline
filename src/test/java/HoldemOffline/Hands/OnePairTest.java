@@ -1,4 +1,4 @@
-package HoldemOffline;
+package HoldemOffline.Hands;
 
 import org.junit.Test;
 
@@ -6,35 +6,9 @@ import java.util.ArrayList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import HoldemOffline.*;
 
-public class OnePairAndHighCardTest {
-    @Test
-    public void basicHigh() {
-        ArrayList<Card> cards = new ArrayList<>();
-        cards.add(new Card(Rank.TWO, Suit.SPADE));
-        cards.add(new Card(Rank.THREE, Suit.HEART));
-        cards.add(new Card(Rank.FOUR, Suit.HEART));
-        cards.add(new Card(Rank.SEVEN, Suit.HEART));
-        cards.add(new Card(Rank.NINE, Suit.HEART));
-        assertEquals("[NINE HEART]", Hand.checkHand(cards).getHandCards().toString());
-    }
-
-    @Test
-    public void highTest2() {
-        ArrayList<Card> cards = new ArrayList<>();
-        cards.add(new Card(Rank.TWO, Suit.SPADE));
-        cards.add(new Card(Rank.THREE, Suit.HEART));
-        cards.add(new Card(Rank.FOUR, Suit.HEART));
-        cards.add(new Card(Rank.SEVEN, Suit.HEART));
-        cards.add(new Card(Rank.KING, Suit.CLUB));
-        cards.add(new Card(Rank.TEN, Suit.DIAMOND));
-        cards.add(new Card(Rank.QUEEN, Suit.DIAMOND));
-
-        Hand h = new HighCard().apply(cards);
-        assertEquals("[KING CLUB]", h.getHandCards().toString());
-        assertEquals("[QUEEN DIAMOND, TEN DIAMOND, SEVEN HEART, FOUR HEART]", h.getKickers().toString());
-    }
-
+public class OnePairTest {
     @Test
     public void basicPair1() {
         ArrayList<Card> cards = new ArrayList<>();
@@ -73,11 +47,5 @@ public class OnePairAndHighCardTest {
         assertNotNull(h);
         assertEquals("[FOUR HEART, FOUR CLUB]", h.getHandCards().toString());
         assertEquals("[KING CLUB, TEN HEART, EIGHT CLUB]", h.getKickers().toString());
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void exception() {
-        ArrayList<Card> cards = new ArrayList<>();
-        Hand.checkHand(cards);
     }
 }

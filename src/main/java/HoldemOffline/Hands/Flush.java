@@ -1,9 +1,11 @@
-package HoldemOffline;
+package HoldemOffline.Hands;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.function.Function;
+import HoldemOffline.*;
+
 
 public class Flush implements Function<ArrayList<Card>, Hand> {
     public Hand apply(ArrayList<Card> cards) {
@@ -20,7 +22,7 @@ public class Flush implements Function<ArrayList<Card>, Hand> {
 
         HashMap<Suit, ArrayList<Card>> suits = new HashMap<>();
         for (Suit s : Suit.values()) {
-            suits.put(s, new ArrayList<>());
+            suits.put(s, new ArrayList<Card>());
         }
 
         for (Card c : sortedCards) {
@@ -48,6 +50,6 @@ public class Flush implements Function<ArrayList<Card>, Hand> {
         if (maxSuit == null)
             return null;
 
-        return new Hand(HandName.FLUSH, maxSuit, new ArrayList<>());
+        return new Hand(HandName.FLUSH, maxSuit, new ArrayList<Card>());
     }
 }

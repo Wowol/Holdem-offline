@@ -1,6 +1,7 @@
 package HoldemOffline;
 
 import java.util.ArrayList;
+import HoldemOffline.Hands.*;
 
 public enum HandName {
     HIGH_CARD {

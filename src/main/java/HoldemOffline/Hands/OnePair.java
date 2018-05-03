@@ -1,8 +1,9 @@
-package HoldemOffline;
+package HoldemOffline.Hands;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.function.Function;
+import HoldemOffline.*;
 
 public class OnePair implements Function<ArrayList<Card>, Hand> {
 
@@ -21,10 +22,10 @@ public class OnePair implements Function<ArrayList<Card>, Hand> {
 
         for (int i = tempCards.size() - 1; i > 0; i--) {
             if (tempCards.get(i).getRank() == tempCards.get(i - 1).getRank()) {
-                handCards.add(tempCards.get(i));
                 handCards.add(tempCards.get(i - 1));
-                tempCards.remove(i);
-                tempCards.remove(i - 1);
+                handCards.add(tempCards.get(i));
+                tempCards.remove(i);                
+                tempCards.remove(i - 1);                
                 break;
             }
         }

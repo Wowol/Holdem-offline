@@ -1,4 +1,4 @@
-package HoldemOffline;
+package HoldemOffline.Hands;
 
 import org.junit.Test;
 
@@ -8,6 +8,7 @@ import java.util.Arrays;
 import static junit.framework.TestCase.assertNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import HoldemOffline.*;
 
 public class ThreeOfAKindTest {
     @Test

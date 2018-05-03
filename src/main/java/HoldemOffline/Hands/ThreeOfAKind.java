@@ -1,8 +1,10 @@
-package HoldemOffline;
+package HoldemOffline.Hands;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.function.Function;
+import HoldemOffline.*;
+
 
 public class ThreeOfAKind implements Function<ArrayList<Card>, Hand> {
     @Override
