@@ -1,6 +1,7 @@
 package HoldemOffline;
 
 import java.util.ArrayList;
+
 import HoldemOffline.Hands.*;
 
 public enum HandName {
@@ -27,25 +28,29 @@ public enum HandName {
 
     THREE_OF_A_KIND {
         @Override
-        public Hand checkMe(ArrayList<Card> cards) { return new ThreeOfAKind().apply(cards); }
+        public Hand checkMe(ArrayList<Card> cards) {
+            return new ThreeOfAKind().apply(cards);
+        }
     },
 
     STRAIGHT {
         @Override
         public Hand checkMe(ArrayList<Card> cards) {
-            return null;
+            return new Straight().apply(cards);
         }
     },
 
     FLUSH {
         @Override
-        public Hand checkMe(ArrayList<Card> cards) { return new Flush().apply(cards); }
+        public Hand checkMe(ArrayList<Card> cards) {
+            return new Flush().apply(cards);
+        }
     },
 
     FULL_HOUSE {
         @Override
         public Hand checkMe(ArrayList<Card> cards) {
-            return null;
+            return new FullHouse().apply(cards);
         }
     },
 
