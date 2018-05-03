@@ -1,19 +1,20 @@
 package HoldemOffline.Hands;
 
+import HoldemOffline.Card;
+import HoldemOffline.Hand;
+import HoldemOffline.HandName;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.function.Function;
 
-import HoldemOffline.*;
-
-
-public class ThreeOfAKind implements Function<ArrayList<Card>, Hand> {
+public class FourOfAKind implements Function<ArrayList<Card>, Hand> {
     @Override
     public Hand apply(ArrayList<Card> cards) {
         if (cards == null || cards.size() < 5)
             throw new IllegalArgumentException();
 
-        if (Hand.checkHandToGiven(cards, HandName.THREE_OF_A_KIND))
+        if (Hand.checkHandToGiven(cards, HandName.FOUR_OF_A_KIND))
             return null;
 
         @SuppressWarnings("unchecked")
@@ -29,18 +30,19 @@ public class ThreeOfAKind implements Function<ArrayList<Card>, Hand> {
             else
                 counter = 1;
 
-            if (counter == 3) {
-                handCards.addAll(sortedCards.subList(i - 1, i + 2));
-                sortedCards.removeAll(sortedCards.subList(i - 1, i + 2));
+            if (counter == 4) {
+                handCards.addAll(sortedCards.subList(i - 2, i + 2));
+                sortedCards.removeAll(sortedCards.subList(i - 2, i + 2));
                 break;
             }
         }
 
-        if (counter != 3)
+        if (counter != 4)
             return null;
 
-        ArrayList<Card> kickers = new ArrayList<>(sortedCards.subList(0, 2));
+        ArrayList<Card> kickers = new ArrayList<>();
+        kickers.add(sortedCards.get(0));
 
-        return new Hand(HandName.THREE_OF_A_KIND, handCards, kickers);
+        return new Hand(HandName.FOUR_OF_A_KIND, handCards, kickers);
     }
 }

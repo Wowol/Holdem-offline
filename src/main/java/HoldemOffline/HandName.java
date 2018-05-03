@@ -57,7 +57,7 @@ public enum HandName {
     FOUR_OF_A_KIND {
         @Override
         public Hand checkMe(ArrayList<Card> cards) {
-            return null;
+            return new FourOfAKind().apply(cards);
         }
     },
 
