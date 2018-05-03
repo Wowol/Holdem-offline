@@ -1,7 +1,6 @@
 package HoldemOffline;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class Hand implements Comparable<Hand> {
 
@@ -21,9 +20,14 @@ public class Hand implements Comparable<Hand> {
 
         this.handName = handName;
         this.handCards = (ArrayList<Card>) handCards.clone();
-        Collections.sort(this.handCards, Collections.reverseOrder());
         this.kickers = (ArrayList<Card>) kickers.clone();
-        Collections.sort(this.kickers, Collections.reverseOrder());
+    }
+
+    public Hand(ArrayList<Card> cards) {
+        Hand h = checkHand(cards);
+        kickers = h.kickers;
+        handCards = h.handCards;
+        handName = h.handName;
     }
 
     public static boolean checkHandToGiven(ArrayList<Card> cards, HandName given) {

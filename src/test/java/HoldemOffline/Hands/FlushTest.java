@@ -1,9 +1,10 @@
-package HoldemOffline;
+package HoldemOffline.Hands;
 
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import HoldemOffline.*;
 
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
