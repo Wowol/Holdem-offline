@@ -2,18 +2,19 @@ package HoldemOffline.Hands;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.function.Function;
+
 import HoldemOffline.*;
 
 
-public class HighCard implements Function<ArrayList<Card>, Hand> {
+public class HighCard extends HandFunction {
+    {
+        handName = HandName.HIGH_CARD;
+    }
+
     @Override
-    public Hand apply(ArrayList<Card> cards) {
+    public Hand check(ArrayList<Card> cards) {
         if (cards == null || cards.size() < 5)
             throw new IllegalArgumentException();
-
-        if (Hand.checkHandToGiven(cards, HandName.HIGH_CARD))
-            return null;
 
         @SuppressWarnings("unchecked")
         ArrayList<Card> tempCards = (ArrayList<Card>) cards.clone();

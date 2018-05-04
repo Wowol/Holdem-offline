@@ -2,21 +2,21 @@ package HoldemOffline.Hands;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.function.Function;
+
 import HoldemOffline.*;
 
 
-public class TwoPair implements Function<ArrayList<Card>, Hand> {
+public class TwoPair extends HandFunction {
+    {
+        handName = HandName.TWO_PAIR;
+    }
 
-    private final HandName name = HandName.TWO_PAIR;
+    //private final HandName name = HandName.TWO_PAIR;
 
     @Override
-    public Hand apply(ArrayList<Card> cards) {
+    public Hand check(ArrayList<Card> cards) {
         if (cards == null || cards.size() < 5)
             throw new IllegalArgumentException();
-
-        if (Hand.checkHandToGiven(cards, name))
-            return null;
 
         @SuppressWarnings("unchecked")
         ArrayList<Card> sortedCards = (ArrayList<Card>) cards.clone();
@@ -41,6 +41,6 @@ public class TwoPair implements Function<ArrayList<Card>, Hand> {
 
         kickers.add(sortedCards.get(0));
 
-        return new Hand(name, handCards, kickers);
+        return new Hand(HandName.TWO_PAIR, handCards, kickers);
     }
 }

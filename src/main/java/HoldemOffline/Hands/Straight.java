@@ -7,16 +7,16 @@ import HoldemOffline.Rank;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.function.Function;
 
-public class Straight implements Function<ArrayList<Card>, Hand> {
+public class Straight extends HandFunction {
+    {
+        handName = HandName.STRAIGHT;
+    }
+
     @Override
-    public Hand apply(ArrayList<Card> cards) {
+    public Hand check(ArrayList<Card> cards) {
         if (cards == null || cards.size() < 5)
             throw new IllegalArgumentException();
-
-        if (Hand.checkHandToGiven(cards, HandName.STRAIGHT))
-            return null;
 
         @SuppressWarnings("unchecked")
         ArrayList<Card> sortedCards = (ArrayList<Card>) cards.clone();

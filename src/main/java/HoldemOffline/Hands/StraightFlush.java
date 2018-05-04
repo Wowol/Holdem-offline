@@ -1,17 +1,21 @@
 package HoldemOffline.Hands;
 
+import HoldemOffline.Card;
+import HoldemOffline.Hand;
+import HoldemOffline.HandName;
+import HoldemOffline.Suit;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.function.Function;
 
-import HoldemOffline.*;
-
-
-public class Flush extends HandFunction {
+public class StraightFlush extends HandFunction {
     {
-        handName = HandName.FLUSH;
+        handName = HandName.STRAIGHT_FLUSH;
     }
 
+    @Override
     public Hand check(ArrayList<Card> cards) {
         if (cards == null || cards.size() < 5)
             throw new IllegalArgumentException();
@@ -27,8 +31,20 @@ public class Flush extends HandFunction {
         }
 
         for (Card c : sortedCards) {
-            if (suits.get(c.getSuit()).size() < 5) {
-                suits.get(c.getSuit()).add(c);
+            suits.get(c.getSuit()).add(c);
+        }
+
+        Straight straight = new Straight();
+
+        for (Suit s : Suit.values()) {
+            if (suits.get(s).size() >= 5) {
+                ArrayList<Card> suitCards = suits.get(s);
+                Hand h = straight.check(suitCards);
+                if (h != null) {
+                    suits.replace(s, h.getHandCards());
+                } else {
+                    suits.replace(s, new ArrayList<>());
+                }
             }
         }
 
@@ -39,11 +55,12 @@ public class Flush extends HandFunction {
                     maxSuit = list;
                 } else {
                     for (int i = 0; i < 5; i++) {
-                        if (list.get(i).getRank().compareTo(maxSuit.get(i).getRank()) > 0) {
+                        int compare = list.get(i).getRank().compareTo(maxSuit.get(i).getRank());
+                        if (compare > 0) {
                             maxSuit = list;
                             break;
                         }
-                        if (list.get(i).getRank().compareTo(maxSuit.get(i).getRank()) < 0) {
+                        if (compare < 0) {
                             break;
                         }
                     }
@@ -54,6 +71,6 @@ public class Flush extends HandFunction {
         if (maxSuit == null)
             return null;
 
-        return new Hand(HandName.FLUSH, maxSuit, new ArrayList<Card>());
+        return new Hand(HandName.STRAIGHT_FLUSH, maxSuit, new ArrayList<Card>());
     }
 }
