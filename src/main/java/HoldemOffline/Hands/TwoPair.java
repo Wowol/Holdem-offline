@@ -11,8 +11,6 @@ public class TwoPair extends HandFunction {
         handName = HandName.TWO_PAIR;
     }
 
-    //private final HandName name = HandName.TWO_PAIR;
-
     @Override
     public Hand check(ArrayList<Card> cards) {
         if (cards == null || cards.size() < 5)

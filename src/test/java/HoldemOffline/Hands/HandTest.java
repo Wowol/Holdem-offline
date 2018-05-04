@@ -4,9 +4,11 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Random;
 
 import HoldemOffline.*;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class HandTest {
     @Test
@@ -183,5 +185,41 @@ public class HandTest {
         Hand h = new Hand(cards);
         assertEquals(HandName.FLUSH, h.getHandName());
         assertEquals(Suit.DIAMOND, h.getHandCards().get(0).getSuit());
+    }
+
+    @Test
+    public void testAll() {
+        // If test is too slow, change to lower number (or just disable whole test :))
+        int numberOfTests = 10000000;
+        
+        int delta = 15;
+
+        Double expectedValues[] = new Double[] {50.118, 42.257, 4.754, 2.113, .392, .197, .144, .024, .001539};
+        for(int x=0; x<expectedValues.length; x++)
+            expectedValues[x] *= numberOfTests/100;
+
+
+        Random random = new Random();
+        ArrayList<Card> cards = new ArrayList<Card>();
+        int[] numberOfOccurrences = new int[HandName.values().length];
+        Hand hand;
+        while (numberOfTests-- != 0) {
+            cards.clear();
+            while(cards.size() < 5) {
+                Card newRandomCard = new Card(Rank.values()[random.nextInt(Rank.values().length)], 
+                    Suit.values()[random.nextInt(Suit.values().length)]);
+                if (!cards.contains(newRandomCard)) {
+                    cards.add(newRandomCard);
+                }
+            }
+            hand = new Hand(cards);
+            numberOfOccurrences[hand.getHandName().ordinal()]++;
+        }
+
+        for (int x=0; x<HandName.values().length; x++) {
+            double d = 100*(Math.abs((numberOfOccurrences[x]-expectedValues[x]))/expectedValues[x]);
+            assertTrue("Hand: "+ HandName.values()[x] + ", Delta: "+delta + ", Current: " + d + ", \n NumerOfOccurences: "+
+                numberOfOccurrences[x] + ", expected: "+expectedValues[x], delta > d);
+        }
     }
 }
