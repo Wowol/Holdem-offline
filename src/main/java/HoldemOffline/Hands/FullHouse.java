@@ -2,16 +2,17 @@ package HoldemOffline.Hands;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.function.Function;
+
 import HoldemOffline.*;
 
-public class FullHouse implements Function<ArrayList<Card>, Hand> {
-    public Hand apply(ArrayList<Card> cards) {
+public class FullHouse extends HandFunction {
+    {
+        handName = HandName.FULL_HOUSE;
+    }
+
+    public Hand check(ArrayList<Card> cards) {
         if (cards == null || cards.size() < 5)
             throw new IllegalArgumentException();
-
-        if (Hand.checkHandToGiven(cards, HandName.FULL_HOUSE))
-            return null;
 
         @SuppressWarnings("unchecked")
         ArrayList<Card> sortedCards = (ArrayList<Card>) cards.clone();

@@ -6,16 +6,16 @@ import HoldemOffline.HandName;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.function.Function;
 
-public class FourOfAKind implements Function<ArrayList<Card>, Hand> {
+public class FourOfAKind extends HandFunction {
+    {
+        handName = HandName.FOUR_OF_A_KIND;
+    }
+
     @Override
-    public Hand apply(ArrayList<Card> cards) {
+    public Hand check(ArrayList<Card> cards) {
         if (cards == null || cards.size() < 5)
             throw new IllegalArgumentException();
-
-        if (Hand.checkHandToGiven(cards, HandName.FOUR_OF_A_KIND))
-            return null;
 
         @SuppressWarnings("unchecked")
         ArrayList<Card> sortedCards = (ArrayList<Card>) cards.clone();
