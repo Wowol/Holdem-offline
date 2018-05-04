@@ -9,28 +9,53 @@
   <version>HoldemOffline</version>
 
   <name>HoldemOffline</name>
-  <!-- FIXME change it to the project's website -->
-  <url>http://www.example.com</url>
+  <url>https://bitbucket.org/pepefrogs/holdemoffline/src</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>1.7</maven.compiler.source>
-    <maven.compiler.target>1.7</maven.compiler.target>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    <slf4j.version>1.6.1</slf4j.version>
   </properties>
 
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.11</version>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
+
 
   <build>
     <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
       <plugins>
         <plugin>
+          <groupId>HoldemOffline</groupId>
+          <artifactId>javafx-maven-plugin</artifactId>
+          <version>8.0.171</version>
+          <configuration>
+
+              <!-- executable JAR file is built by default (not optional at this stage) -->
+              <mainClass>java.HoldemOffline.App</mainClass>
+
+              <!-- optionally override settings (such as jar file name, html file, etc) -->
+              <jarFileName>my-example-app.jar</jarFileName>
+
+              <!-- optionally sign the jar file if security is needed -->
+              <!--
+                  to create keystore use command line:
+                      keytool -genkey -alias example-user -keystore keystore.jks
+              -->
+              <signJar>
+                  <alias>example-user</alias>
+                  <storePassword>example-password</storePassword>
+              </signJar>
+
+              <!-- optionally build webstart bundle -->
+              <webstart>
+                  <requiresAllPermissions>true</requiresAllPermissions>
+              </webstart>
+
+              <!-- optionally build native installers -->
+              <nativeInstallers/>
+
+            </configuration>
+          </plugin>
+        <plugin>        
           <artifactId>maven-clean-plugin</artifactId>
           <version>3.0.0</version>
         </plugin>
@@ -62,4 +87,54 @@
       </plugins>
     </pluginManagement>
   </build>
+
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.11</version>
+      <scope>test</scope>
+    </dependency>
+
+     <!-- MigLayout -->
+
+        <dependency>
+            <groupId>com.miglayout</groupId>
+            <artifactId>miglayout-javafx</artifactId>
+            <version>4.2</version>
+        </dependency>
+
+        <!-- Apache Commons -->
+
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.6</version>
+        </dependency>
+
+        <!-- Logging  -->
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.16</version>
+        </dependency>
+
+    </dependencies>
 </project>
