@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox fx:id="gridPaneCardsa" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="HoldemOffline.Controllers.SelectCardsController">
+   <children>
+      <GridPane fx:id="gridPane" alignment="CENTER" hgap="25.0" vgap="30.0">
+         <VBox.margin>
+            <Insets />
+         </VBox.margin></GridPane>
+      <Pane fx:id="paneHandInfo" prefHeight="351.0" prefWidth="1000.0">
+         <children>
+            <Label alignment="CENTER" layoutX="480.0" layoutY="10.0" text="Hand name:">
+               <font>
+                  <Font name="Comic Sans MS" size="50.0" />
+               </font>
+            </Label>
+            <Label fx:id="handNameLabel" alignment="CENTER" layoutX="441.0" layoutY="80.0" prefHeight="32.0" prefWidth="346.0" text="Select more cards!">
+               <font>
+                  <Font name="Comic Sans MS" size="22.0" />
+               </font>
+            </Label>
+            <Label layoutX="126.0" layoutY="136.0" prefHeight="22.0" prefWidth="93.0" text="Hand cards:">
+               <font>
+                  <Font name="Comic Sans MS" size="15.0" />
+               </font>
+            </Label>
+            <Label layoutX="893.0" layoutY="136.0" prefHeight="22.0" prefWidth="93.0" text="Kickers:">
+               <font>
+                  <Font name="Comic Sans MS" size="15.0" />
+               </font>
+            </Label>
+            <HBox fx:id="handCardsBox" layoutX="46.0" layoutY="198.0" prefHeight="100.0" prefWidth="253.0" spacing="10.0">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets></HBox>
+            <HBox fx:id="kickersBox" layoutX="767.0" layoutY="184.0" prefHeight="100.0" prefWidth="253.0" spacing="10.0">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </HBox>
+         </children>
+      </Pane>
+   </children>
+
+</VBox>
