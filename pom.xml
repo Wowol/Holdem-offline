@@ -30,7 +30,7 @@
           <configuration>
 
               <!-- executable JAR file is built by default (not optional at this stage) -->
-              <mainClass>java.HoldemOffline.App</mainClass>
+              <mainClass>HoldemOffline.Model.App</mainClass>
 
               <!-- optionally override settings (such as jar file name, html file, etc) -->
               <jarFileName>my-example-app.jar</jarFileName>
