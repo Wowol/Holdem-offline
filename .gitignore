@@ -31,3 +31,5 @@ hs_err_pid*
 
 #eclipse settings
 .settings/
+
+HoldemOffline.iml
