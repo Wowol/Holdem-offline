@@ -5,13 +5,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class Pot {
-    public Map<Player, Integer> players;
-    public int chips;
-    public int maxBet;
-
-    public Pot() {
-        players = new HashMap<>();
-        chips = 0;
-        maxBet = 0;
-    }
+    public Map<Player, Integer> players = new HashMap<>();
+    public int chips = 0;
+    public int maxBet = 0;
 }

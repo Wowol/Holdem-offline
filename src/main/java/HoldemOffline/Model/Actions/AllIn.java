@@ -12,10 +12,6 @@ public class AllIn implements Action {
 
     @Override
     public void make(Player player) throws ActionException {
-        if (!player.isPlaying) {
-            throw new PlayerIsNotPlaying();
-        }
-
         Pot maxPot = new Pot();
         maxPot.chips = 0;
 

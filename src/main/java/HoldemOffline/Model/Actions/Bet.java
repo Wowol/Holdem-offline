@@ -18,11 +18,7 @@ public class Bet implements Action {
 
     @Override
     public void make(Player player) throws ActionException {
-        if (!player.isPlaying) {
-            throw new PlayerIsNotPlaying();
-        }
-
-        if (player.table.maxBetInCurrentTurn != 0) {
+        if (player.table.mainPot != null) {
             throw new InvalidTableState();
         }
 
@@ -44,7 +40,14 @@ public class Bet implements Action {
 
     @Override
     public boolean isPossible(Player player) {
-        // TODO
+        if (player.table.mainPot != null) {
+            return false;
+        }
+
+        if (player.numberOfChips <= howMany) {
+            return false;
+        }
+
         return false;
     }
 

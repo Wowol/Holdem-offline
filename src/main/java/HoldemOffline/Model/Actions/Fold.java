@@ -10,10 +10,6 @@ public class Fold implements Action {
 
     @Override
     public void make(Player player) throws ActionException {
-        if (!player.isPlaying) {
-            throw new PlayerIsNotPlaying();
-        }
-
         for (Pot p : player.table.allPots) {
             p.players.remove(player);
         }
