@@ -1,8 +1,11 @@
 package HoldemOffline.Model;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 public class Pot {
-    public List<Player> players;
-    public int chips;
+    public Map<Player, Integer> players = new HashMap<>();
+    public int chips = 0;
+    public int maxBet = 0;
 }

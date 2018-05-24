@@ -8,8 +8,11 @@ import HoldemOffline.Model.Utilities.CircularList;
 public class Table {
     public List<Player> players = new CircularList<>();
     public List<Card> tableCards = new ArrayList<>();
-    public List<Pot> pots = new ArrayList<>();
+    public List<Pot> allPots = new ArrayList<>();
     public int dealerIndex;
+
+    public List<Pot> currentTurnPots = new ArrayList<>();
+    public Pot mainPot;
 
     public int maxBetInCurrentTurn;
 

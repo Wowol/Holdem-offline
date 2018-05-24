@@ -13,7 +13,7 @@ public class Player {
     public Action lastAction;
     public Table table;
 
-    private int numberOfChips;
+    public int numberOfChips;
     private List<Card> holeCards = new ArrayList<>();
 
     public Player(Table table) {
@@ -30,5 +30,21 @@ public class Player {
 
     public void makeAction(Action action) throws ActionException {
         action.make(this);
+    }
+
+    public int numberOfChipsNeededToCall() {
+        int chipsNeeded = 0;
+
+        for (Pot p : table.currentTurnPots) {
+            if (p.players.get(this) == null) {
+                chipsNeeded += p.maxBet;
+                continue;
+            }
+            if (p.players.get(this) < p.maxBet) {
+                chipsNeeded += p.maxBet - p.players.get(this);
+            }
+        }
+
+        return chipsNeeded;
     }
 }
