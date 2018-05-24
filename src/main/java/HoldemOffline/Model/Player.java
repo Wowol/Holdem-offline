@@ -13,7 +13,7 @@ public class Player {
     public Action lastAction;
     public Table table;
 
-    private int numberOfChips;
+    public int numberOfChips;
     private List<Card> holeCards = new ArrayList<>();
 
     public Player(Table table) {
