@@ -4,11 +4,10 @@ import HoldemOffline.Model.Action;
 import HoldemOffline.Model.Actions.Exceptions.ActionException;
 import HoldemOffline.Model.Actions.Exceptions.InvalidTableState;
 import HoldemOffline.Model.Actions.Exceptions.NotEnoughChips;
-import HoldemOffline.Model.Actions.Exceptions.PlayerIsNotPlaying;
 import HoldemOffline.Model.Player;
 import HoldemOffline.Model.Pot;
 
-public class Call implements Action {
+public class Call extends Action {
 
     @Override
     public void make(Player player) throws ActionException {
@@ -25,6 +24,9 @@ public class Call implements Action {
             player.numberOfChips -= p.maxBet - p.players.get(player);
             p.players.replace(player, p.maxBet);
         }
+
+        player.lastAction = Actions.CALL;
+        
 
     }
 

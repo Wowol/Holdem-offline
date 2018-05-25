@@ -4,11 +4,10 @@ import HoldemOffline.Model.Action;
 import HoldemOffline.Model.Actions.Exceptions.ActionException;
 import HoldemOffline.Model.Actions.Exceptions.InvalidTableState;
 import HoldemOffline.Model.Actions.Exceptions.NotEnoughChips;
-import HoldemOffline.Model.Actions.Exceptions.PlayerIsNotPlaying;
 import HoldemOffline.Model.Player;
 import HoldemOffline.Model.Pot;
 
-public class Raise implements Action {
+public class Raise extends Action {
 
     private int howMany;
 
@@ -34,12 +33,14 @@ public class Raise implements Action {
 
         if (player.table.mainPot == null) {
             player.table.mainPot = new Pot();
+            player.table.allPots.add(player.table.mainPot);
         }
 
         player.table.mainPot.maxBet += howMany;
         player.table.mainPot.players.put(player, player.table.mainPot.maxBet);
         player.numberOfChips -= howMany;
 
+        player.lastAction = Actions.RAISE;
     }
 
     @Override

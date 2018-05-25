@@ -40,7 +40,7 @@ public class DeckTest {
         deck.peek();
         assertEquals(size, deck.getSize());
         deck.pop();
-        assertEquals(size -1, deck.getSize());
+        assertEquals(size - 1, deck.getSize());
     }
 
     @Test(expected = IllegalStateException.class)

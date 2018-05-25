@@ -1,17 +1,16 @@
 package HoldemOffline.Model.Actions;
 
 import HoldemOffline.Model.Action;
-import HoldemOffline.Model.Actions.Exceptions.PlayerIsNotPlaying;
 import HoldemOffline.Model.Player;
-import HoldemOffline.Model.Actions.Exceptions.ActionException;
 import HoldemOffline.Model.Pot;
+import HoldemOffline.Model.Actions.Exceptions.ActionException;
 
 import java.util.Map;
 
-public class AllIn implements Action {
+public class AllIn extends Action {
 
     @Override
-    public void make(Player player) throws ActionException {
+    protected void make(Player player) throws ActionException {
         Pot maxPot = new Pot();
         maxPot.chips = 0;
 
@@ -38,7 +37,12 @@ public class AllIn implements Action {
         newPot.maxBet = player.numberOfChips;
         maxPot.maxBet -= player.numberOfChips;
 
+        player.numberOfChips = 0;
+
         player.isPlaying = false;
+        player.isAllIn = true;
+
+        player.lastAction = Actions.All_IN;
 
     }
 
