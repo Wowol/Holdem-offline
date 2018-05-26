@@ -81,6 +81,8 @@ public class Table {
         allPots.clear();
         currentTurnPots.clear();
         clearAllPlayersFlags();
+        mainPot = null;
+        maxBetInCurrentTurn = 0;
 
         dealerIndex = getNewDealerIndex();
         currentIndex = getSmallBlindIndex();
