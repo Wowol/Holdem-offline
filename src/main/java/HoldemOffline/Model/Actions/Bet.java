@@ -25,6 +25,10 @@ public class Bet extends Action {
             throw new NotEnoughChips();
         }
 
+        if (player.table.bigBlind > howMany) {
+            throw new InvalidTableState();
+        }
+
         player.numberOfChips -= howMany;
         player.table.maxBetInCurrentTurn = howMany;
         Pot pot = new Pot();
@@ -46,6 +50,10 @@ public class Bet extends Action {
         }
 
         if (player.numberOfChips <= howMany) {
+            return false;
+        }
+
+        if (player.table.bigBlind > howMany) {
             return false;
         }
 

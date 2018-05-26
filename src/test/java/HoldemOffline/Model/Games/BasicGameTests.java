@@ -104,7 +104,7 @@ public class BasicGameTests {
     public void BasicGameTest6() throws ActionException {
         table.startGame(0);
         p1.makeAction(Actions.RAISE, 50);
-        p2.makeAction(Actions.RAISE, 80);
+        p2.makeAction(Actions.RAISE, 100);
         p3.makeAction(Actions.CALL);
         p1.makeAction(Actions.CALL);
         assertEquals(table.status, TableStatus.FLOP);
