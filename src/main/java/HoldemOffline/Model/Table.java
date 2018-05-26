@@ -263,7 +263,10 @@ public class Table {
         if (smallBlindPlayer.numberOfChips <= smallBlind) {
             smallBlindPlayer.makeAction(Actions.All_IN);
         } else {
+            int temp = bigBlind;
+            bigBlind = smallBlind;
             smallBlindPlayer.makeAction(Actions.BET, smallBlind);
+            bigBlind = temp;
         }
     }
 

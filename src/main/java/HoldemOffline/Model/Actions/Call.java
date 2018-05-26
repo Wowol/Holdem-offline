@@ -19,6 +19,10 @@ public class Call extends Action {
             throw new NotEnoughChips();
         }
 
+        if (player.numberOfChipsNeededToCall() == 0) {
+            throw new InvalidTableState();
+        }
+
         for (Pot p : player.table.currentTurnPots) {
             p.players.putIfAbsent(player, 0);
             player.numberOfChips -= p.maxBet - p.players.get(player);

@@ -21,6 +21,14 @@ public class Raise extends Action {
             throw new InvalidTableState();
         }
 
+        if (howMany < player.table.maxBetInCurrentTurn*2) {
+            throw new InvalidTableState();
+        }
+
+        for (Pot p : player.table.currentTurnPots) {
+            howMany -= p.maxBet;
+        }
+
         if (player.numberOfChipsNeededToCall() + howMany >= player.numberOfChips) {
             throw new NotEnoughChips();
         }
@@ -36,6 +44,7 @@ public class Raise extends Action {
             player.table.allPots.add(player.table.mainPot);
         }
 
+        player.table.maxBetInCurrentTurn += howMany;
         player.table.mainPot.maxBet += howMany;
         player.table.mainPot.players.put(player, player.table.mainPot.maxBet);
         player.numberOfChips -= howMany;
@@ -46,6 +55,10 @@ public class Raise extends Action {
     @Override
     public boolean isPossible(Player player) {
         if (player.table.currentTurnPots.size() == 0) {
+            return false;
+        }
+
+        if (howMany < player.table.maxBetInCurrentTurn*2) {
             return false;
         }
 

@@ -34,6 +34,10 @@ public class AllIn extends Action {
             }
         }
 
+        if (player.numberOfChips > player.table.maxBetInCurrentTurn) {
+            player.table.maxBetInCurrentTurn = player.numberOfChips;
+        }
+
         newPot.maxBet = player.numberOfChips;
         maxPot.maxBet -= player.numberOfChips;
 
