@@ -146,6 +146,7 @@ public class Table {
         clearAllPlayersLastAction();
 
         currentTurnPots.clear();
+        mainPot = null;
     }
 
     private void startTurn() {
