@@ -7,6 +7,8 @@ import HoldemOffline.Model.Actions.Exceptions.NotEnoughChips;
 import HoldemOffline.Model.Player;
 import HoldemOffline.Model.Pot;
 
+import java.util.Map;
+
 public class Call extends Action {
 
     @Override
@@ -25,12 +27,12 @@ public class Call extends Action {
 
         for (Pot p : player.table.currentTurnPots) {
             p.players.putIfAbsent(player, 0);
+            p.chips += p.maxBet - p.players.get(player);
             player.numberOfChips -= p.maxBet - p.players.get(player);
             p.players.replace(player, p.maxBet);
         }
 
         player.lastAction = Actions.CALL;
-        
 
     }
 

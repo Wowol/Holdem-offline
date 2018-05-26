@@ -35,6 +35,7 @@ public class Raise extends Action {
 
         for (Pot p : player.table.currentTurnPots) {
             p.players.putIfAbsent(player, 0);
+            p.chips += p.maxBet - p.players.get(player);
             player.numberOfChips -= p.maxBet - p.players.get(player);
             p.players.replace(player, p.maxBet);
         }
@@ -45,6 +46,7 @@ public class Raise extends Action {
         }
 
         player.table.maxBetInCurrentTurn += howMany;
+        player.table.mainPot.chips += howMany;
         player.table.mainPot.maxBet += howMany;
         player.table.mainPot.players.put(player, player.table.mainPot.maxBet);
         player.numberOfChips -= howMany;
