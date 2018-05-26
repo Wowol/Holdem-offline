@@ -8,7 +8,6 @@ import javafx.scene.input.*;
 import javafx.scene.control.Label;
 
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;

@@ -2,11 +2,10 @@ package HoldemOffline.Model.Actions;
 
 import HoldemOffline.Model.Action;
 import HoldemOffline.Model.Actions.Exceptions.ActionException;
-import HoldemOffline.Model.Actions.Exceptions.PlayerIsNotPlaying;
 import HoldemOffline.Model.Player;
 import HoldemOffline.Model.Pot;
 
-public class Fold implements Action {
+public class Fold extends Action {
 
     @Override
     public void make(Player player) throws ActionException {
@@ -15,6 +14,9 @@ public class Fold implements Action {
         }
 
         player.isPlaying = false;
+
+        player.lastAction = Actions.FOLD;
+        
     }
 
     @Override

@@ -187,7 +187,7 @@ public class HandTest {
         assertEquals(Suit.DIAMOND, h.getHandCards().get(0).getSuit());
     }
 
-    @Test
+  //  @Test
     public void testAll() {
         // If test is too slow, change to lower number (or just disable whole test :))
         int numberOfTests = 10000000;

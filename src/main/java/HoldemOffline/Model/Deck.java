@@ -26,7 +26,7 @@ public class Deck implements Iterable<Card>{
         this(DEFAULT_DECK_SIZE);
     }
 
-    private void addCardsToDeck() {
+    public void addCardsToDeck() {
         for (int i = Rank.values().length - 1; i >= Rank.values().length - size / 4; i--) {
             for (Suit suit : Suit.values()) {
                 cards.add(new Card(Rank.values()[i], suit));

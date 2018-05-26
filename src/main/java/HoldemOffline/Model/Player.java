@@ -2,6 +2,7 @@ package HoldemOffline.Model;
 
 import java.util.List;
 
+import HoldemOffline.Model.Actions.Actions;
 import HoldemOffline.Model.Actions.Exceptions.ActionException;
 
 import java.util.ArrayList;
@@ -10,14 +11,23 @@ public class Player {
 
     // If isPlaying is false, that means player folds or went AllIn in previous turn
     public boolean isPlaying = false;
-    public Action lastAction;
+    public boolean isAllIn = false;
+
+    public Actions lastAction;
     public Table table;
 
+    public Hand currentBestHand;
+
     public int numberOfChips;
+
     private List<Card> holeCards = new ArrayList<>();
 
     public Player(Table table) {
         this.table = table;
+    }
+
+    public boolean isFolded() {
+        return !isPlaying && !isAllIn;
     }
 
     public int getNumberOfChips() {
@@ -28,7 +38,11 @@ public class Player {
         return holeCards;
     }
 
-    public void makeAction(Action action) throws ActionException {
+    public void makeAction(Actions action, int arg) throws ActionException {
+        action.make(this, arg);
+    }
+
+    public void makeAction(Actions action) throws ActionException {
         action.make(this);
     }
 
@@ -47,4 +61,5 @@ public class Player {
 
         return chipsNeeded;
     }
+
 }
