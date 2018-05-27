@@ -51,6 +51,11 @@ public class Raise extends Action {
         player.table.mainPot.players.put(player, player.table.mainPot.maxBet);
         player.numberOfChips -= howMany;
 
+        for (Player p : player.table.players) {
+            if(p.isPlaying)
+                p.isPlayingThisTurn = true;
+        }
+
         player.lastAction = Actions.RAISE;
     }
 

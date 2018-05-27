@@ -39,6 +39,11 @@ public class Bet extends Action {
         player.table.allPots.add(pot);
         player.table.mainPot = pot;
 
+        for (Player p : player.table.players) {
+            if(p.isPlaying)
+                p.isPlayingThisTurn = true;
+        }
+
         player.lastAction = Actions.BET;
         
     }
