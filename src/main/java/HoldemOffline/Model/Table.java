@@ -39,27 +39,31 @@ public class Table {
     private MethodReferences references;
 
     public Table() {
-        references = new MethodReferences(){
-        
+        references = new MethodReferences() {
+
             @Override
             public Consumer<Player> getFunctionToInformPlayerOfHisTurn() {
-                return null;
-            }
-        
-            @Override
-            public BiConsumer<Player, ArrayList<Card>> getFunctionToGivePlayersCards() {
-                return null;
-            }
-        
-            @Override
-            public Consumer<Card> getFunctionToAddCardToTable() {
-                return null;
+                return (Player p) -> {
+                };
             }
 
-			@Override
-			public Consumer<Player> getFunctionToInformPlayersThatPlayerMadeMove() {
-				return null;
-			}
+            @Override
+            public BiConsumer<Player, ArrayList<Card>> getFunctionToGivePlayersCards() {
+                return (Player p, ArrayList<Card> c) -> {
+                };
+            }
+
+            @Override
+            public Consumer<Card> getFunctionToAddCardToTable() {
+                return (Card c) -> {
+                };
+            }
+
+            @Override
+            public Consumer<Player> getFunctionToInformPlayersThatPlayerMadeMove() {
+                return (Player p) -> {
+                };
+            }
         };
     }
 
