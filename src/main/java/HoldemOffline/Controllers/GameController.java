@@ -9,7 +9,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
-import java.util.function.Supplier;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +22,8 @@ import HoldemOffline.Model.Player;
 import HoldemOffline.Model.Table;
 import HoldemOffline.Model.Actions.*;
 import HoldemOffline.Model.Actions.Exceptions.ActionException;
+import HoldemOffline.Model.Utilities.Command;
+import HoldemOffline.Controls.CardImageView;
 import HoldemOffline.Controls.PlayerPane;
 import javafx.scene.input.*;
 
@@ -31,6 +32,7 @@ public class GameController {
 
     private static final int SMALL_BLIND = 10;
     private static final int BIG_BLIND = 20;
+    private static final double TABLE_CARD_HEIGHT = 112.0;
 
     @FXML
     private AnchorPane tableAnchorPane;
@@ -59,11 +61,12 @@ public class GameController {
     @FXML
     private Slider betSlider;
 
+    @FXML
+    private HBox tableCardsBox;
+
     private Table table;
 
-    private Player p1;
-    private Player p2;
-    private Player p3;
+    private ArrayList<Player> players = new ArrayList<>();
 
     HashMap<Player, PlayerPane> playerToPane = new HashMap<>();
 
@@ -90,6 +93,16 @@ public class GameController {
             public Consumer<Player> getFunctionToInformPlayersThatPlayerMadeMove() {
                 return (Player p) -> playerMadeMove(p);
             }
+
+            @Override
+            public Command getFunctionToNewTurn() {
+                return () -> newTurn();
+            }
+
+            @Override
+            public Command getFunctionToEndHand() {
+                return () -> endHand();
+            }
         });
         addPlayersToTable();
         setBlinds(SMALL_BLIND, BIG_BLIND);
@@ -98,6 +111,8 @@ public class GameController {
         table.startGame();
 
         setSliderProporties();
+
+        tableCardsBox.getChildren().clear();
     }
 
     private void setSliderProporties() {
@@ -114,8 +129,22 @@ public class GameController {
                 .addListener((obs, oldval, newVal) -> betSlider.setValue(Math.round(newVal.doubleValue())));
     }
 
+    private void newTurn() {
+        for (Player p : players) {
+            playerToPane.get(p).clearActionLabelText();
+        }
+    }
+
+    private void endHand() {
+        for (Player p : players) {
+            playerToPane.get(p).setNumberOfChipsLabelText(p.numberOfChips);
+            playerToPane.get(p).clearActionLabelText();
+        }
+        tableCardsBox.getChildren().clear();
+    }
+
     private void addCardToTable(Card card) {
-        betTextField.setText("asd");
+        tableCardsBox.getChildren().add(new CardImageView(card, TABLE_CARD_HEIGHT));
     }
 
     private void setSliderMinValue() {
@@ -141,31 +170,31 @@ public class GameController {
     }
 
     private void addPlayersToTable() {
-        p1 = new Player(table);
+        Player p1 = new Player(table);
         p1.numberOfChips = 700;
 
-        p2 = new Player(table);
+        Player p2 = new Player(table);
         p2.numberOfChips = 500;
 
-        p3 = new Player(table);
+        Player p3 = new Player(table);
         p3.numberOfChips = 300;
+        players.addAll(Arrays.asList(p1, p2, p3));
 
         table.players.addAll(Arrays.asList(p1, p2, p3));
     }
 
     private void addPlayersToView() {
-        PlayerPane player1Pane = new PlayerPane(new Image("/images/players/proud.png"), p1);
-        PlayerPane player2Pane = new PlayerPane(new Image("/images/players/happy.png"), p2);
-        PlayerPane player3Pane = new PlayerPane(new Image("/images/players/angry.png"), p3);
+        PlayerPane player1Pane = new PlayerPane(new Image("/images/players/proud.png"), players.get(0));
+        PlayerPane player2Pane = new PlayerPane(new Image("/images/players/happy.png"), players.get(1));
+        PlayerPane player3Pane = new PlayerPane(new Image("/images/players/angry.png"), players.get(2));
 
         playerOnePane.getChildren().add(player1Pane);
         playerTwoPane.getChildren().add(player2Pane);
         playerThreePane.getChildren().add(player3Pane);
 
-        playerToPane.put(p1, player1Pane);
-        playerToPane.put(p2, player2Pane);
-        playerToPane.put(p3, player3Pane);
-
+        playerToPane.put(players.get(0), player1Pane);
+        playerToPane.put(players.get(1), player2Pane);
+        playerToPane.put(players.get(2), player3Pane);
     }
 
     public void yourTurn(Player player) {
@@ -210,7 +239,7 @@ public class GameController {
 
     private void makeCheckButton() {
         callCheckButton.setOnMouseClicked(this::playerChecked);
-        callCheckButton.setText("Call");
+        callCheckButton.setText("Check");
     }
 
     private void playerMadeMove(Player player) {

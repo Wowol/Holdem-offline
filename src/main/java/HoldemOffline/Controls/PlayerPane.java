@@ -40,4 +40,8 @@ public class PlayerPane extends AnchorPane {
         numberOfChipsLabel.setText(Integer.toString(number));
     }
 
+    public void clearActionLabelText() {
+        setActionLabelText("");
+    }
+
 }

@@ -27,7 +27,7 @@ public class Check extends Action {
             return false;
         }
 
-        return false;
+        return true;
     }
 
 }
