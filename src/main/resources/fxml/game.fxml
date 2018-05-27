@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="HoldemOffline.Controllers.GameController">
+  <children>
+    <MenuBar VBox.vgrow="NEVER">
+      <menus>
+        <Menu mnemonicParsing="false" text="File">
+          <items>
+            <MenuItem mnemonicParsing="false" text="New" />
+            <MenuItem mnemonicParsing="false" text="Open…" />
+            <Menu mnemonicParsing="false" text="Open Recent" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Close" />
+            <MenuItem mnemonicParsing="false" text="Save" />
+            <MenuItem mnemonicParsing="false" text="Save As…" />
+            <MenuItem mnemonicParsing="false" text="Revert" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Preferences…" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Quit" />
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Edit">
+          <items>
+            <MenuItem mnemonicParsing="false" text="Undo" />
+            <MenuItem mnemonicParsing="false" text="Redo" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Cut" />
+            <MenuItem mnemonicParsing="false" text="Copy" />
+            <MenuItem mnemonicParsing="false" text="Paste" />
+            <MenuItem mnemonicParsing="false" text="Delete" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Select All" />
+            <MenuItem mnemonicParsing="false" text="Unselect All" />
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Help">
+          <items>
+            <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
+          </items>
+        </Menu>
+      </menus>
+    </MenuBar>
+    <AnchorPane id="1" maxHeight="-1.0" maxWidth="-1.0" prefWidth="669.0" styleClass="root" stylesheets="@styles/backgroundgame.css" VBox.vgrow="ALWAYS">
+         <children>
+            <AnchorPane fx:id="tableAnchorPane" layoutX="190.0" layoutY="-12.0" prefHeight="577.0" prefWidth="927.0" styleClass="root" stylesheets="@styles/backgroundgame.css">
+               <children>
+                  <ImageView fitHeight="508.0" fitWidth="715.0" layoutX="106.0" layoutY="116.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/table.png" />
+                     </image>
+                  </ImageView>
+                  <AnchorPane fx:id="player2Pane" layoutX="71.0" layoutY="47.0" prefHeight="203.0" prefWidth="138.0" visible="false">
+                     <children>
+                        <ImageView fitHeight="102.0" fitWidth="107.0" layoutX="3.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/players/angry.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="33.0" layoutY="139.0" text="1000" textFill="WHITE">
+                           <font>
+                              <Font name="Comic Sans MS" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="9.0" layoutY="1.0" text="Raise 1000" textFill="WHITE">
+                           <font>
+                              <Font name="Comic Sans MS" size="18.0" />
+                           </font>
+                        </Label>
+                        <HBox fx:id="playerCards" layoutX="86.0" layoutY="139.0" prefHeight="44.0" prefWidth="89.0" spacing="5.0">
+                           <children>
+                              <ImageView fitHeight="57.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@images/Cards/reverse.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="57.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@images/Cards/reverse.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </HBox>
+                     </children>
+                  </AnchorPane>
+                  <HBox fx:id="tableCardsBox" layoutX="270.0" layoutY="175.0" prefHeight="102.0" prefWidth="387.0" spacing="6.0">
+                     <children>
+                        <ImageView fitHeight="112.0" fitWidth="77.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/Cards/Faces/9H.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="114.0" fitWidth="73.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/Cards/Faces/9H.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="112.0" fitWidth="72.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/Cards/Faces/9H.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="114.0" fitWidth="72.0" layoutX="10.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/Cards/Faces/9H.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="118.0" fitWidth="72.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/Cards/Faces/9H.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </HBox>
+                  <Label fx:id="potLabel" layoutX="436.0" layoutY="318.0" text="34040" textFill="WHITE">
+                     <font>
+                        <Font name="Comic Sans MS" size="18.0" />
+                     </font>
+                  </Label>
+                  <AnchorPane fx:id="player1Pane1" layoutX="389.0" layoutY="389.0" prefHeight="203.0" prefWidth="138.0" visible="false">
+                     <children>
+                        <ImageView fitHeight="102.0" fitWidth="109.0" layoutX="3.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/players/proud.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="33.0" layoutY="139.0" text="1000" textFill="WHITE">
+                           <font>
+                              <Font name="Comic Sans MS" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="9.0" layoutY="1.0" text="Raise 1000" textFill="WHITE">
+                           <font>
+                              <Font name="Comic Sans MS" size="18.0" />
+                           </font>
+                        </Label>
+                        <HBox fx:id="playerCards11" layoutX="86.0" layoutY="139.0" prefHeight="44.0" prefWidth="89.0" spacing="5.0">
+                           <children>
+                              <ImageView fitHeight="57.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@images/Cards/reverse.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="57.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@images/Cards/reverse.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </HBox>
+                     </children>
+                  </AnchorPane>
+                  <Pane fx:id="playerTwoPane" layoutX="643.0" layoutY="16.0" prefHeight="200.0" prefWidth="200.0" />
+                  <Pane fx:id="playerOnePane" layoutX="6.0" layoutY="49.0" prefHeight="200.0" prefWidth="200.0" />
+                  <Pane fx:id="playerThreePane" layoutX="391.0" layoutY="362.0" prefHeight="200.0" prefWidth="200.0" />
+                  <AnchorPane fx:id="player1Pane" prefHeight="203.0" prefWidth="138.0" visible="false">
+                     <children>
+                        <ImageView fitHeight="102.0" fitWidth="109.0" layoutX="3.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/players/happy.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="33.0" layoutY="139.0" text="1000" textFill="WHITE">
+                           <font>
+                              <Font name="Comic Sans MS" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="9.0" layoutY="1.0" text="Raise 1000" textFill="WHITE">
+                           <font>
+                              <Font name="Comic Sans MS" size="18.0" />
+                           </font>
+                        </Label>
+                        <HBox fx:id="playerCards1" layoutX="86.0" layoutY="139.0" prefHeight="44.0" prefWidth="89.0" spacing="5.0">
+                           <children>
+                              <ImageView fitHeight="57.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@images/Cards/reverse.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fitHeight="57.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@images/Cards/reverse.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </HBox>
+                     </children>
+                  </AnchorPane>
+               </children>
+               <padding>
+                  <Insets right="50.0" />
+               </padding>
+            </AnchorPane>
+            <AnchorPane layoutX="414.0" layoutY="538.0" prefHeight="200.0" prefWidth="835.0">
+               <children>
+                  <Button fx:id="foldButton" layoutX="718.0" layoutY="53.0" mnemonicParsing="false" prefHeight="94.0" prefWidth="175.0" styleClass="green" stylesheets="@styles/buttonstyle.css" text="Fold" />
+                  <Button fx:id="callCheckButton" layoutX="526.0" layoutY="53.0" mnemonicParsing="false" prefHeight="94.0" prefWidth="175.0" styleClass="green" stylesheets="@styles/buttonstyle.css" text="Call" />
+                  <Button fx:id="betRaiseButton" layoutX="338.0" layoutY="53.0" mnemonicParsing="false" prefHeight="94.0" prefWidth="175.0" styleClass="green" stylesheets="@styles/buttonstyle.css" text="Raise" />
+                  <Slider fx:id="betSlider" blockIncrement="25.0" layoutX="42.0" layoutY="86.0" minorTickCount="25" prefHeight="31.0" prefWidth="274.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
+                  <TextField fx:id="betTextField" layoutX="42.0" layoutY="53.0" prefHeight="25.0" prefWidth="77.0" styleClass="orangeTextBox" stylesheets="@styles/textFieldStyle.css" />
+               </children>
+            </AnchorPane>
+            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="50.0" layoutY="313.0" pickOnBounds="true" preserveRatio="true" />
+         </children>
+    </AnchorPane>
+  </children>
+</VBox>

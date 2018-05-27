@@ -11,11 +11,11 @@ import org.slf4j.LoggerFactory;
 
 public class App extends Application {
 
-    private final String FIRST_SCENE = "/fxml/selectCards.fxml";
+    private static final String FIRST_SCENE = "/fxml/game.fxml";
 
-    private final String TITLE = "Holdem Offline - hands";
+    private static final String TITLE = "Holdem Offline - hands";
 
-    private final String ICON = "/images/malcin.png";
+    private static final String ICON = "/images/malcin.png";
 
     private static final Logger log = LoggerFactory.getLogger(App.class);
 
@@ -29,11 +29,10 @@ public class App extends Application {
         FXMLLoader loader = new FXMLLoader();
         Parent rootNode = (Parent) loader.load(getClass().getResourceAsStream(FIRST_SCENE));
         log.debug("Showing JFX scene");
-        Scene scene = new Scene(rootNode, 1000, 500);
+        Scene scene = new Scene(rootNode, 1280, 800);
         stage.setTitle(TITLE);
         stage.getIcons().add(new Image(ICON));
         stage.setScene(scene);
         stage.show();
     }
-
 }

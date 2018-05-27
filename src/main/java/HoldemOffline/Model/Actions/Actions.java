@@ -44,6 +44,22 @@ public enum Actions {
         public void make(Player p, int... arg) throws ActionException {
             new Raise(arg[0]).makeAction(p);
         }
+    },
+
+    SMALL_BLIND {
+        @Override
+        public void make(Player p, int... arg) throws ActionException {
+            BET.make(p, arg);
+            p.lastAction = SMALL_BLIND;
+        }
+    },
+
+    BIG_BLIND {
+        @Override
+        public void make(Player p, int... arg) throws ActionException {
+            RAISE.make(p, arg);
+            p.lastAction = BIG_BLIND;
+        }
     };
 
     public abstract void make(Player player, int... args) throws ActionException;
