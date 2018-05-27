@@ -60,6 +60,10 @@ public class Raise extends Action {
             return false;
         }
 
+        for (Pot p : player.table.currentTurnPots) {
+            howMany -= p.maxBet;
+        }
+
         if (howMany < player.table.maxBetInCurrentTurn * 2) {
             return false;
         }
@@ -68,7 +72,7 @@ public class Raise extends Action {
             return false;
         }
 
-        return false;
+        return true;
     }
 
     public static MinMax getMinMaxRaiseValues(Player player) {
@@ -76,13 +80,8 @@ public class Raise extends Action {
             return null;
         }
 
-        int chipsRequired = 0;
-        for (Pot p : player.table.currentTurnPots) {
-            chipsRequired -= p.maxBet;
-        }
-
         return new MinMax(player.table.maxBetInCurrentTurn * 2,
-                Math.min(player.numberOfChipsNeededToCall() + chipsRequired, player.numberOfChips));
+                player.numberOfChips - player.numberOfChipsNeededToCall() + player.table.maxBetInCurrentTurn);
     }
 
     public static class MinMax {

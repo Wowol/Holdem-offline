@@ -1,18 +1,19 @@
 package HoldemOffline.Model.Games;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
-
 import java.util.Arrays;
 import java.util.Map;
 
 import HoldemOffline.Model.*;
-import HoldemOffline.Model.Actions.Actions;
+import HoldemOffline.Model.Actions.*;
 import org.junit.Before;
 import org.junit.Test;
 import HoldemOffline.Model.Actions.Exceptions.ActionException;
 import HoldemOffline.Model.Actions.Exceptions.InvalidTableState;
 import HoldemOffline.Model.Actions.Exceptions.NotEnoughChips;
+
+import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class BasicGameTests {
 
@@ -149,5 +150,57 @@ public class BasicGameTests {
             }
         }
         // p1.makeAction(Actions.CALL);
+    }
+
+    @Test
+    public void IsPossibleAndEndResultTest1() throws ActionException {
+        table.startGame(0);
+
+        assertTrue(new Call().isPossible(p1));
+        assertFalse(new Bet(50).isPossible(p1));
+        assertTrue(new Raise(100).isPossible(p1));
+        assertFalse(new Raise(30).isPossible(p1));
+        assertFalse(new Bet(50).isPossible(p1));
+        assertFalse(new Raise(800).isPossible(p1));
+        assertFalse(new Check().isPossible(p1));
+
+        p1.makeAction(Actions.RAISE, 400);
+
+        assertTrue(new Call().isPossible(p2));
+        assertFalse(new Check().isPossible(p2));
+        assertFalse(new Raise(500).isPossible(p2));
+
+        p2.makeAction(Actions.CALL);
+
+        assertFalse(new Call().isPossible(p3));
+        assertTrue(new AllIn().isPossible(p3));
+
+        p3.makeAction(Actions.FOLD);
+
+        p2.makeAction(Actions.BET, 50);
+        p1.makeAction(Actions.CALL);
+        p2.makeAction(Actions.FOLD);
+        //p1.makeAction(Actions.CHECK);
+
+        assertEquals(p1.numberOfChips, 1150);
+        assertEquals(p2.numberOfChips, 50);
+        assertEquals(p3.numberOfChips, 270);
+    }
+
+    @Test
+    public void MinMaxTest1() throws ActionException {
+        table.startGame(0);
+        assertEquals(40, Raise.getMinMaxRaiseValues(p1).min);
+        assertEquals(700, Raise.getMinMaxRaiseValues(p1).max);
+
+        p1.makeAction(Actions.RAISE, 100);
+
+        assertEquals(200, Raise.getMinMaxRaiseValues(p2).min);
+        assertEquals(500, Raise.getMinMaxRaiseValues(p2).max);
+
+        p2.makeAction(Actions.RAISE, 200);
+
+        assertEquals(400, Raise.getMinMaxRaiseValues(p3).min);
+        assertEquals(300, Raise.getMinMaxRaiseValues(p3).max);
     }
 }
