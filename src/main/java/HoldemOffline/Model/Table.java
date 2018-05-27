@@ -1,6 +1,5 @@
 package HoldemOffline.Model;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -11,6 +10,7 @@ import java.util.function.Consumer;
 import HoldemOffline.Model.Actions.Actions;
 import HoldemOffline.Model.Actions.Exceptions.ActionException;
 import HoldemOffline.Model.Utilities.CircularList;
+import HoldemOffline.Model.Utilities.Command;
 
 public class Table {
 
@@ -62,6 +62,18 @@ public class Table {
             @Override
             public Consumer<Player> getFunctionToInformPlayersThatPlayerMadeMove() {
                 return (Player p) -> {
+                };
+            }
+
+            @Override
+            public Command getFunctionToNewTurn() {
+                return () -> {
+                };
+            }
+
+            @Override
+            public Command getFunctionToEndHand() {
+                return () -> {
                 };
             }
         };
@@ -128,7 +140,6 @@ public class Table {
         currentIndex = getSmallBlindIndex();
 
         payBlinds();
-        currentIndex = getUnderTheGunPlayerIndex();
         status = TableStatus.PRE_FLOP;
 
         references.getFunctionToInformPlayerOfHisTurn().accept(getCurrentPlayer());
@@ -154,24 +165,32 @@ public class Table {
             startNewHand();
             return;
         } else if (checkIfAllPlayersExceptOneAreAllIn()) {
-            while (status != null) {
-                endTurn();
+            while (endTurn()) {
             }
+            endHand();
+            return;
         } else if (checkIfAllPlayersMakeActionThatAllowsToNextTurn()) {
-            endTurn();
+            if (!endTurn()) {
+                endHand();
+                return;
+            }
             startTurn();
         } else {
             currentIndex = getFirstPlayingPlayerIndexAfterCurrent();
         }
+
+        references.getFunctionToInformPlayerOfHisTurn().accept(getCurrentPlayer());
     }
 
-    private void endTurn() {
+    // Return true if we are still at same hand, false when hand is over
+    private boolean endTurn() {
+        references.getFunctionToNewTurn().execute();
+
         TableStatus nextStatus = getNextTableStatus();
         status = nextStatus;
 
         if (nextStatus == null) {
-            endHand();
-            return;
+            return false;
         }
 
         switch (nextStatus) {
@@ -192,6 +211,8 @@ public class Table {
 
         currentTurnPots.clear();
         mainPot = null;
+
+        return true;
     }
 
     private void startTurn() {
@@ -224,6 +245,8 @@ public class Table {
         giveWinningsToPlayers();
         removeAllCardsFromPlayers();
         removePlayersWithNoChips();
+
+        references.getFunctionToEndHand().execute();
 
         if (players.size() > 1)
             startNewHand();
@@ -284,12 +307,6 @@ public class Table {
         }
         // Only one player remaining
         throw new RuntimeException();
-    }
-
-    // Under the gun player is the player that sits next to big blind - he make
-    // first decision
-    private int getUnderTheGunPlayerIndex() {
-        return isHeadsUp() ? dealerIndex : dealerIndex + 3;
     }
 
     private void payBlinds() {

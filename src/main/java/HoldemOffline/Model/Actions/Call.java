@@ -36,14 +36,22 @@ public class Call extends Action {
 
     @Override
     public boolean isPossible(Player player) {
-        if (!player.isPlaying) {
+        if (player.table.currentTurnPots.size() == 0) {
+            return false;
+        }
+
+        if (player.numberOfChipsNeededToCall() >= player.numberOfChips) {
+            return false;
+        }
+
+        if (player.numberOfChipsNeededToCall() == 0) {
             return false;
         }
 
         int chipsNeeded = 0;
 
         for (Pot p : player.table.currentTurnPots) {
-            int currentChips = p.players.get(player) != null ? p.players.get(player) : 0; 
+            int currentChips = p.players.get(player) != null ? p.players.get(player) : 0;
             if (currentChips < p.maxBet) {
                 chipsNeeded += p.maxBet - currentChips;
             }

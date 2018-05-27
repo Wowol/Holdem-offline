@@ -3,7 +3,8 @@ package HoldemOffline.Model;
 import java.util.ArrayList;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
-import java.util.function.Supplier;
+
+import HoldemOffline.Model.Utilities.Command;
 
 public interface MethodReferences {
     public Consumer<Player> getFunctionToInformPlayerOfHisTurn();
@@ -13,4 +14,8 @@ public interface MethodReferences {
     public Consumer<Card> getFunctionToAddCardToTable();
 
     public Consumer<Player> getFunctionToInformPlayersThatPlayerMadeMove();
+
+    public Command getFunctionToNewTurn();
+
+    public Command getFunctionToEndHand();
 }
