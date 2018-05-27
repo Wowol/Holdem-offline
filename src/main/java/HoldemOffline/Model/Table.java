@@ -43,22 +43,22 @@ public class Table {
         
             @Override
             public Consumer<Player> getFunctionToInformPlayerOfHisTurn() {
-                return null;
+                return (Player p) -> {}; 
             }
         
             @Override
             public BiConsumer<Player, ArrayList<Card>> getFunctionToGivePlayersCards() {
-                return null;
+                return (Player p, ArrayList<Card> c) -> {};
             }
         
             @Override
             public Consumer<Card> getFunctionToAddCardToTable() {
-                return null;
+                return (Card c) -> {};
             }
 
 			@Override
 			public Consumer<Player> getFunctionToInformPlayersThatPlayerMadeMove() {
-				return null;
+				return (Player p) -> {};
 			}
         };
     }
