@@ -113,20 +113,18 @@ public class BasicGameTests {
     public void AllInTest1() throws ActionException {
         p3.numberOfChips = 1000;
         table.startGame(0);
-        //System.out.println(p1.getHoleCards());
+        // System.out.println(p1.getHoleCards());
         p1.makeAction(Actions.All_IN);
-        /*for (Pot p : table.currentTurnPots) {
-            System.out.println(p.chips);
-        }
-        System.out.println();*/
+        /*
+         * for (Pot p : table.currentTurnPots) { System.out.println(p.chips); }
+         * System.out.println();
+         */
         p2.makeAction(Actions.All_IN);
-        /*for (Pot p : table.allPots) {
-            System.out.println("  " + p.chips);
-            for (Map.Entry pl : p.players.entrySet()) {
-                System.out.println(pl.getValue());
-            }
-            System.out.println();
-        }*/
+        /*
+         * for (Pot p : table.allPots) { System.out.println("  " + p.chips); for
+         * (Map.Entry pl : p.players.entrySet()) { System.out.println(pl.getValue()); }
+         * System.out.println(); }
+         */
         p3.makeAction(Actions.CALL);
         System.out.println(p1.numberOfChips);
         System.out.println(p2.numberOfChips);
@@ -140,16 +138,16 @@ public class BasicGameTests {
         p2.makeAction(Actions.FOLD);
         p3.makeAction(Actions.CALL);
         for (Pot p : table.allPots) {
-            for (Map.Entry pl : p.players.entrySet()) {
+            for (Map.Entry<Player, Integer> pl : p.players.entrySet()) {
                 System.out.println(pl.getValue());
             }
         }
         p3.makeAction(Actions.All_IN);
         for (Pot p : table.allPots) {
-            for (Map.Entry pl : p.players.entrySet()) {
+            for (Map.Entry<Player, Integer> pl : p.players.entrySet()) {
                 System.out.println(pl.getValue());
             }
         }
-        //p1.makeAction(Actions.CALL);
+        // p1.makeAction(Actions.CALL);
     }
 }

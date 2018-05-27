@@ -1,9 +1,12 @@
 package HoldemOffline.Model;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.TreeMap;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 import HoldemOffline.Model.Actions.Actions;
 import HoldemOffline.Model.Actions.Exceptions.ActionException;
@@ -12,8 +15,8 @@ import HoldemOffline.Model.Utilities.CircularList;
 public class Table {
 
     private static final int FLOP_NUMBER_CARDS = 3;
-    private static final int TURN_NUMBER_CARDS = 3;
-    private static final int RIVER_NUMBER_CARDS = 3;
+    private static final int TURN_NUMBER_CARDS = 1;
+    private static final int RIVER_NUMBER_CARDS = 1;
 
     public List<Player> players = new CircularList<>();
     public List<Card> tableCards = new ArrayList<>();
@@ -32,6 +35,37 @@ public class Table {
 
     private Deck deck = new Deck();
     private int currentIndex;
+
+    private MethodReferences references;
+
+    public Table() {
+        references = new MethodReferences(){
+        
+            @Override
+            public Consumer<Player> getFunctionToInformPlayerOfHisTurn() {
+                return null;
+            }
+        
+            @Override
+            public BiConsumer<Player, ArrayList<Card>> getFunctionToGivePlayersCards() {
+                return null;
+            }
+        
+            @Override
+            public Consumer<Card> getFunctionToAddCardToTable() {
+                return null;
+            }
+
+			@Override
+			public Consumer<Player> getFunctionToInformPlayersThatPlayerMadeMove() {
+				return null;
+			}
+        };
+    }
+
+    public Table(MethodReferences references) {
+        this.references = references;
+    }
 
     private boolean isHeadsUp() {
         return players.size() == 2;
@@ -59,7 +93,9 @@ public class Table {
 
     public void addCards(int number) {
         while (number-- > 0) {
-            tableCards.add(deck.pop());
+            Card newCard = deck.pop();
+            tableCards.add(newCard);
+            references.getFunctionToAddCardToTable().accept(newCard);
         }
     }
 
@@ -90,6 +126,8 @@ public class Table {
         payBlinds();
         currentIndex = getUnderTheGunPlayerIndex();
         status = TableStatus.PRE_FLOP;
+
+        references.getFunctionToInformPlayerOfHisTurn().accept(getCurrentPlayer());
     }
 
     private void removeAllCardsFromPlayers() {
@@ -106,6 +144,7 @@ public class Table {
     }
 
     public void prepareNextMove() {
+        references.getFunctionToInformPlayersThatPlayerMadeMove().accept(getCurrentPlayer());
         if (checkIfOnlyOnePlayerNotFolded()) {
             giveAllChipsToPlayer(getFirstPlayerWhoDoesntFold());
             startNewHand();
@@ -268,7 +307,7 @@ public class Table {
         } else {
             int temp = bigBlind;
             bigBlind = smallBlind;
-            smallBlindPlayer.makeAction(Actions.BET, smallBlind);
+            smallBlindPlayer.makeAction(Actions.SMALL_BLIND, smallBlind);
             bigBlind = temp;
         }
     }
@@ -278,8 +317,7 @@ public class Table {
         if (bigBlindPlayer.numberOfChips <= bigBlind) {
             bigBlindPlayer.makeAction(Actions.All_IN);
         } else {
-            bigBlindPlayer.makeAction(Actions.RAISE, bigBlind);
-            bigBlindPlayer.lastAction = null; // Player have choice after paying big blind, so it's not normal raise
+            bigBlindPlayer.makeAction(Actions.BIG_BLIND, bigBlind);
         }
     }
 
@@ -318,7 +356,7 @@ public class Table {
         for (Player player : players) {
             if (!player.isPlaying)
                 continue;
-            if (player.lastAction == null) {
+            if (player.lastAction == null || player.lastAction == Actions.BIG_BLIND) {
                 return false;
             }
             if (player.lastAction == Actions.RAISE || player.lastAction == Actions.BET) {
@@ -336,7 +374,7 @@ public class Table {
                 numberOfFoldedPlayers++;
             } else if (player.isAllIn) {
                 numberOfAllInPlayers++;
-            } else if (player.lastAction == null) {
+            } else if (player.lastAction == null || player.lastAction == Actions.BIG_BLIND) {
                 return false;
             }
         }
