@@ -12,6 +12,7 @@ public class Player {
     // If isPlaying is false, that means player folds or went AllIn in previous turn
     public boolean isPlaying = false;
     public boolean isAllIn = false;
+    public boolean isPlayingThisTurn = false;
 
     public Actions lastAction;
     public Table table;

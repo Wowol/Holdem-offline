@@ -91,6 +91,10 @@ public class AllIn extends Action {
 
         if (player.numberOfChips > player.table.maxBetInCurrentTurn) {
             player.table.maxBetInCurrentTurn = player.numberOfChips;
+            for (Player p : player.table.players) {
+                if(p.isPlaying)
+                    p.isPlayingThisTurn = true;
+            }
         }
 
         player.numberOfChips = 0;

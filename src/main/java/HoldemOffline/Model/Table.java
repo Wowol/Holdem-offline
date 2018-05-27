@@ -186,12 +186,17 @@ public class Table {
     private boolean endTurn() {
         references.getFunctionToNewTurn().execute();
 
+        if (status == null) {
+            return false;
+        }
+
         TableStatus nextStatus = getNextTableStatus();
         status = nextStatus;
 
-        if (nextStatus == null) {
+        if (status == null) {
             return false;
         }
+
 
         switch (nextStatus) {
         case FLOP:
@@ -224,6 +229,7 @@ public class Table {
         clearAllPlayersLastAction();
         for (Player player : players) {
             player.isPlaying = true;
+            player.isPlayingThisTurn = true;
             player.isAllIn = false;
         }
     }
@@ -350,9 +356,6 @@ public class Table {
         for (Pot pot : allPots) {
             player.numberOfChips += pot.chips;
         }
-        for (Pot pot : currentTurnPots) {
-            player.numberOfChips += pot.chips;
-        }
     }
 
     private Player getFirstPlayerWhoDoesntFold() {
@@ -373,7 +376,7 @@ public class Table {
     }
 
     private boolean checkIfAllPlayersMakeActionThatAllowsToNextTurn() {
-        int numberOfPeopleWhoRaisedOrBetted = 0;
+        /*int numberOfPeopleWhoRaisedOrBetted = 0;
         for (Player player : players) {
             if (!player.isPlaying)
                 continue;
@@ -383,8 +386,13 @@ public class Table {
             if (player.lastAction == Actions.RAISE || player.lastAction == Actions.BET) {
                 numberOfPeopleWhoRaisedOrBetted++;
             }
+        }*/
+        for (Player p : players) {
+            if (p.isPlayingThisTurn)
+                return false;
         }
-        return numberOfPeopleWhoRaisedOrBetted < 2;
+        //return numberOfPeopleWhoRaisedOrBetted < 2;
+        return true;
     }
 
     private boolean checkIfAllPlayersExceptOneAreAllIn() {

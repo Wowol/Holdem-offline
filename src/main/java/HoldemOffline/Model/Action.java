@@ -14,6 +14,8 @@ public abstract class Action {
 
         make(player);
 
+        player.isPlayingThisTurn = false;
+
         player.table.prepareNextMove();
     }
 
