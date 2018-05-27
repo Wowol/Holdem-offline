@@ -221,6 +221,7 @@ public class Table {
     }
 
     private void startTurn() {
+        setUnFoldedPlayersPlayingInThisTurn();
         currentIndex = dealerIndex;
         currentIndex = getFirstPlayingPlayerIndexAfterCurrent();
     }
@@ -231,6 +232,13 @@ public class Table {
             player.isPlaying = true;
             player.isPlayingThisTurn = true;
             player.isAllIn = false;
+        }
+    }
+
+    private void setUnFoldedPlayersPlayingInThisTurn() {
+        for (Player player : players) {
+            if (player.isPlaying)
+                player.isPlayingThisTurn = true;
         }
     }
 
@@ -345,6 +353,7 @@ public class Table {
             bigBlindPlayer.makeAction(Actions.All_IN);
         } else {
             bigBlindPlayer.makeAction(Actions.BIG_BLIND, bigBlind);
+            bigBlindPlayer.isPlayingThisTurn = true;
         }
     }
 
