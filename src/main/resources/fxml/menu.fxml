@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="HoldemOffline.Controllers.MenuController">
+  <children>
+    <MenuBar VBox.vgrow="NEVER">
+      <menus>
+        <Menu mnemonicParsing="false" text="File">
+          <items>
+            <MenuItem mnemonicParsing="false" text="Exit" />
+          </items>
+        </Menu>
+      </menus>
+    </MenuBar>
+    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="800.0" prefWidth="700.0" VBox.vgrow="ALWAYS">
+         <children>
+            <Slider fx:id="numberOfAiPlayersSlider" blockIncrement="1.0" layoutX="159.0" layoutY="41.0" majorTickUnit="1.0" max="5.0" min="1.0" minorTickCount="0" prefHeight="14.0" prefWidth="269.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="1.0" />
+            <Label layoutX="35.0" layoutY="43.0" text="Numer of AI players:" />
+            <HBox fx:id="botsBox" layoutX="64.0" layoutY="131.0" prefHeight="272.0" prefWidth="679.0" AnchorPane.bottomAnchor="172.0" AnchorPane.leftAnchor="64.0" AnchorPane.rightAnchor="57.0" AnchorPane.topAnchor="131.0" />
+            <Label layoutX="509.0" layoutY="17.0" text="Small Blind:" />
+            <Label layoutX="521.0" layoutY="50.0" text="Big Blind:" />
+            <TextField fx:id="smallBlindText" layoutX="578.0" layoutY="12.0" prefHeight="25.0" prefWidth="62.0" text="10" />
+            <TextField fx:id="bigBlindText" layoutX="577.0" layoutY="46.0" prefHeight="25.0" prefWidth="62.0" text="20" />
+            <Button fx:id="startGameButton" layoutX="323.0" layoutY="435.0" mnemonicParsing="false" onAction="#startGameButtonClick" prefHeight="114.0" prefWidth="210.0" text="Start game" />
+            <Pane layoutX="116.0" layoutY="328.0" prefHeight="200.0" prefWidth="200.0" visible="false">
+               <children>
+                  <Label layoutX="74.0" layoutY="224.0" text="Select AI" />
+                  <ChoiceBox layoutX="25.0" layoutY="184.0" prefWidth="150.0" />
+                  <ImageView fitHeight="130.0" fitWidth="150.0" layoutX="29.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </Pane>
+            <Label layoutX="496.0" layoutY="84.0" text="Starting chips:" />
+            <TextField fx:id="startingChipsText" layoutX="578.0" layoutY="80.0" prefHeight="25.0" prefWidth="62.0" text="500" />
+         </children>
+    </AnchorPane>
+  </children>
+</VBox>

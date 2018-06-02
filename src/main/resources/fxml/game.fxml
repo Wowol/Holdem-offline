@@ -6,7 +6,6 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
@@ -21,36 +20,6 @@
   <children>
     <MenuBar VBox.vgrow="NEVER">
       <menus>
-        <Menu mnemonicParsing="false" text="File">
-          <items>
-            <MenuItem mnemonicParsing="false" text="New" />
-            <MenuItem mnemonicParsing="false" text="Open…" />
-            <Menu mnemonicParsing="false" text="Open Recent" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Close" />
-            <MenuItem mnemonicParsing="false" text="Save" />
-            <MenuItem mnemonicParsing="false" text="Save As…" />
-            <MenuItem mnemonicParsing="false" text="Revert" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Preferences…" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Quit" />
-          </items>
-        </Menu>
-        <Menu mnemonicParsing="false" text="Edit">
-          <items>
-            <MenuItem mnemonicParsing="false" text="Undo" />
-            <MenuItem mnemonicParsing="false" text="Redo" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Cut" />
-            <MenuItem mnemonicParsing="false" text="Copy" />
-            <MenuItem mnemonicParsing="false" text="Paste" />
-            <MenuItem mnemonicParsing="false" text="Delete" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Select All" />
-            <MenuItem mnemonicParsing="false" text="Unselect All" />
-          </items>
-        </Menu>
         <Menu mnemonicParsing="false" text="Help">
           <items>
             <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
@@ -100,7 +69,7 @@
                         </HBox>
                      </children>
                   </AnchorPane>
-                  <HBox fx:id="tableCardsBox" layoutX="270.0" layoutY="175.0" prefHeight="102.0" prefWidth="387.0" spacing="6.0">
+                  <HBox fx:id="tableCardsBox" layoutX="270.0" layoutY="240.0" prefHeight="102.0" prefWidth="387.0" spacing="6.0">
                      <children>
                         <ImageView fitHeight="112.0" fitWidth="77.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -129,7 +98,7 @@
                         </ImageView>
                      </children>
                   </HBox>
-                  <Label fx:id="potLabel" layoutX="436.0" layoutY="318.0" text="34040" textFill="WHITE">
+                  <Label fx:id="potLabel" layoutX="449.0" layoutY="350.0" text="34040" textFill="WHITE">
                      <font>
                         <Font name="Comic Sans MS" size="18.0" />
                      </font>
@@ -167,9 +136,16 @@
                         </HBox>
                      </children>
                   </AnchorPane>
-                  <Pane fx:id="playerTwoPane" layoutX="643.0" layoutY="16.0" prefHeight="200.0" prefWidth="200.0" />
-                  <Pane fx:id="playerOnePane" layoutX="6.0" layoutY="49.0" prefHeight="200.0" prefWidth="200.0" />
-                  <Pane fx:id="playerThreePane" layoutX="391.0" layoutY="362.0" prefHeight="200.0" prefWidth="200.0" />
+                  <AnchorPane fx:id="playersPane" layoutX="50.0" layoutY="19.0">
+                     <children>
+                        <Pane fx:id="player0Place" layoutX="336.0" layoutY="386.0" prefHeight="200.0" prefWidth="200.0" />
+                        <Pane fx:id="player1Place" layoutX="4.0" layoutY="339.0" prefHeight="200.0" prefWidth="200.0" />
+                        <Pane fx:id="player2Place" layoutY="25.0" prefHeight="200.0" prefWidth="200.0" />
+                        <Pane fx:id="player3Place" layoutX="336.0" layoutY="-34.0" prefHeight="200.0" prefWidth="200.0" />
+                        <Pane fx:id="player4Place" layoutX="628.0" layoutY="23.0" prefHeight="200.0" prefWidth="200.0" />
+                        <Pane fx:id="player5Place" layoutX="619.0" layoutY="328.0" prefHeight="200.0" prefWidth="200.0" />
+                     </children>
+                  </AnchorPane>
                   <AnchorPane fx:id="player1Pane" prefHeight="203.0" prefWidth="138.0" visible="false">
                      <children>
                         <ImageView fitHeight="102.0" fitWidth="109.0" layoutX="3.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true">
@@ -217,7 +193,6 @@
                   <TextField fx:id="betTextField" layoutX="42.0" layoutY="53.0" prefHeight="25.0" prefWidth="77.0" styleClass="orangeTextBox" stylesheets="@styles/textFieldStyle.css" />
                </children>
             </AnchorPane>
-            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="50.0" layoutY="313.0" pickOnBounds="true" preserveRatio="true" />
          </children>
     </AnchorPane>
   </children>

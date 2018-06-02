@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 
 public class App extends Application {
 
-    private static final String FIRST_SCENE = "/fxml/game.fxml";
+    private static final String FIRST_SCENE = "/fxml/menu.fxml";
 
     private static final String TITLE = "Holdem Offline - hands";
 
@@ -19,11 +19,14 @@ public class App extends Application {
 
     private static final Logger log = LoggerFactory.getLogger(App.class);
 
+    public static Stage stage;
+
     public static void main(String[] args) throws Exception {
         launch(args);
     }
 
     public void start(Stage stage) throws Exception {
+        this.stage = stage;
         log.info("Starting HoldemOffline");
         log.debug("Loading FXML for main view from: {}", FIRST_SCENE);
         FXMLLoader loader = new FXMLLoader();
