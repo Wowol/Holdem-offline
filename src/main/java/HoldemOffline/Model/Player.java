@@ -1,11 +1,10 @@
 package HoldemOffline.Model;
 
 import java.util.List;
-
 import HoldemOffline.Model.Actions.Actions;
 import HoldemOffline.Model.Actions.Exceptions.ActionException;
-
 import java.util.ArrayList;
+import javafx.scene.image.Image;
 
 public class Player {
 
@@ -20,6 +19,8 @@ public class Player {
     public Hand currentBestHand;
 
     public int numberOfChips;
+
+    public Image avatar;
 
     private List<Card> holeCards = new ArrayList<>();
 

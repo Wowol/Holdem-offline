@@ -4,9 +4,8 @@ import javafx.beans.value.*;
 import javafx.fxml.FXML;
 import javafx.scene.layout.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
@@ -30,21 +29,10 @@ import javafx.scene.input.*;
 public class GameController {
     private static final Logger log = LoggerFactory.getLogger(App.class);
 
-    private static final int SMALL_BLIND = 10;
-    private static final int BIG_BLIND = 20;
     private static final double TABLE_CARD_HEIGHT = 112.0;
 
     @FXML
     private AnchorPane tableAnchorPane;
-
-    @FXML
-    private Pane playerOnePane;
-
-    @FXML
-    private Pane playerTwoPane;
-
-    @FXML
-    private Pane playerThreePane;
 
     @FXML
     private Button betRaiseButton;
@@ -54,6 +42,27 @@ public class GameController {
 
     @FXML
     private Button foldButton;
+
+    @FXML
+    private Pane player0Place;
+
+    @FXML
+    private Pane player1Place;
+
+    @FXML
+    private Pane player2Place;
+
+    @FXML
+    private Pane player3Place;
+
+    @FXML
+    private Pane player4Place;
+
+    @FXML
+    private Pane player5Place;
+
+    @FXML
+    private AnchorPane playersPane;
 
     @FXML
     private TextField betTextField;
@@ -66,52 +75,49 @@ public class GameController {
 
     private Table table;
 
-    private ArrayList<Player> players = new ArrayList<>();
-
     HashMap<Player, PlayerPane> playerToPane = new HashMap<>();
 
-    @FXML
-    protected void initialize() {
-        table = new Table(new MethodReferences() {
+    MethodReferences references = new MethodReferences() {
+        @Override
+        public Consumer<Player> getFunctionToInformPlayerOfHisTurn() {
+            return (Player p) -> yourTurn(p);
+        }
 
-            @Override
-            public Consumer<Player> getFunctionToInformPlayerOfHisTurn() {
-                return (Player p) -> yourTurn(p);
-            }
+        @Override
+        public BiConsumer<Player, List<Card>> getFunctionToGivePlayersCards() {
+            return (Player p, List<Card> cards) -> giveCardsToPlayer(p, cards);
+        }
 
-            @Override
-            public BiConsumer<Player, ArrayList<Card>> getFunctionToGivePlayersCards() {
-                return null;
-            }
+        @Override
+        public Consumer<Card> getFunctionToAddCardToTable() {
+            return (Card c) -> addCardToTable(c);
+        }
 
-            @Override
-            public Consumer<Card> getFunctionToAddCardToTable() {
-                return (Card c) -> addCardToTable(c);
-            }
+        @Override
+        public Consumer<Player> getFunctionToInformPlayersThatPlayerMadeMove() {
+            return (Player p) -> playerMadeMove(p);
+        }
 
-            @Override
-            public Consumer<Player> getFunctionToInformPlayersThatPlayerMadeMove() {
-                return (Player p) -> playerMadeMove(p);
-            }
+        @Override
+        public Command getFunctionToNewTurn() {
+            return () -> newTurn();
+        }
 
-            @Override
-            public Command getFunctionToNewTurn() {
-                return () -> newTurn();
-            }
+        @Override
+        public Command getFunctionToEndHand() {
+            return () -> endHand();
+        }
+    };
 
-            @Override
-            public Command getFunctionToEndHand() {
-                return () -> endHand();
-            }
-        });
-        addPlayersToTable();
-        setBlinds(SMALL_BLIND, BIG_BLIND);
+    public void setTable(Table table) {
+        this.table = table;
+    }
+
+    public void startGame() {
+        table.setReferences(references);
         addPlayersToView();
-
         table.startGame();
-
         setSliderProporties();
-
         tableCardsBox.getChildren().clear();
     }
 
@@ -122,6 +128,10 @@ public class GameController {
         setSliderListener();
     }
 
+    private void giveCardsToPlayer(Player player, List<Card> cards) {
+        playerToPane.get(player).cardsBox.setCards(cards);
+    }
+
     private void setSliderTick() {
         betSlider.setMajorTickUnit(table.bigBlind);
         betSlider.setMinorTickCount(table.bigBlind);
@@ -130,13 +140,13 @@ public class GameController {
     }
 
     private void newTurn() {
-        for (Player p : players) {
+        for (Player p : table.players) {
             playerToPane.get(p).clearActionLabelText();
         }
     }
 
     private void endHand() {
-        for (Player p : players) {
+        for (Player p : table.players) {
             playerToPane.get(p).setNumberOfChipsLabelText(p.numberOfChips);
             playerToPane.get(p).clearActionLabelText();
         }
@@ -158,43 +168,19 @@ public class GameController {
     private void setSliderListener() {
         betSlider.valueProperty().addListener(new ChangeListener<Number>() {
             public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
-                System.out.println(new_val.doubleValue());
                 onSliderDrag();
             }
         });
     }
 
-    private void setBlinds(int smallBlind, int bigBlind) {
-        table.smallBlind = smallBlind;
-        table.bigBlind = bigBlind;
-    }
-
-    private void addPlayersToTable() {
-        Player p1 = new Player(table);
-        p1.numberOfChips = 700;
-
-        Player p2 = new Player(table);
-        p2.numberOfChips = 500;
-
-        Player p3 = new Player(table);
-        p3.numberOfChips = 300;
-        players.addAll(Arrays.asList(p1, p2, p3));
-
-        table.players.addAll(Arrays.asList(p1, p2, p3));
-    }
-
     private void addPlayersToView() {
-        PlayerPane player1Pane = new PlayerPane(new Image("/images/players/proud.png"), players.get(0));
-        PlayerPane player2Pane = new PlayerPane(new Image("/images/players/happy.png"), players.get(1));
-        PlayerPane player3Pane = new PlayerPane(new Image("/images/players/angry.png"), players.get(2));
-
-        playerOnePane.getChildren().add(player1Pane);
-        playerTwoPane.getChildren().add(player2Pane);
-        playerThreePane.getChildren().add(player3Pane);
-
-        playerToPane.put(players.get(0), player1Pane);
-        playerToPane.put(players.get(1), player2Pane);
-        playerToPane.put(players.get(2), player3Pane);
+        int index = 0;
+        for (Player player : table.players) {
+            Pane place = (Pane) playersPane.getChildren().get(index++);
+            PlayerPane newPlayerPane = new PlayerPane(player.avatar, player);
+            place.getChildren().add(newPlayerPane);
+            playerToPane.put(player, newPlayerPane);
+        }
     }
 
     public void yourTurn(Player player) {
@@ -262,7 +248,6 @@ public class GameController {
         try {
             table.getCurrentPlayer().makeAction(Actions.RAISE, getRaiseValue());
         } catch (ActionException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -272,7 +257,6 @@ public class GameController {
         try {
             table.getCurrentPlayer().makeAction(Actions.BET, getRaiseValue());
         } catch (ActionException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -282,7 +266,6 @@ public class GameController {
         try {
             table.getCurrentPlayer().makeAction(Actions.CALL);
         } catch (ActionException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -292,7 +275,6 @@ public class GameController {
         try {
             table.getCurrentPlayer().makeAction(Actions.CHECK);
         } catch (ActionException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -302,7 +284,6 @@ public class GameController {
         try {
             table.getCurrentPlayer().makeAction(Actions.All_IN);
         } catch (ActionException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -312,7 +293,6 @@ public class GameController {
         try {
             table.getCurrentPlayer().makeAction(Actions.FOLD);
         } catch (ActionException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -324,4 +304,5 @@ public class GameController {
     private void onSliderDrag() {
         betTextField.setText(Integer.toString((int) betSlider.getValue()));
     }
+
 }

@@ -9,12 +9,11 @@ import HoldemOffline.Model.Player;
 
 public class PlayerPane extends AnchorPane {
     private Avatar avatar;
-    private PlayerCardsHBox cardsBox;
+    public PlayerCardsHBox cardsBox;
     private LabelWithLastAction lastActionLabel;
     private Label numberOfChipsLabel;
 
     public PlayerPane(Image avatarImage, Player player) {
-
         setPrefHeight(203);
         setPrefWidth(138);
 

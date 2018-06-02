@@ -4,13 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.TreeMap;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 import HoldemOffline.Model.Actions.Actions;
 import HoldemOffline.Model.Actions.Exceptions.ActionException;
 import HoldemOffline.Model.Utilities.CircularList;
-import HoldemOffline.Model.Utilities.Command;
 
 public class Table {
 
@@ -39,44 +36,11 @@ public class Table {
     private MethodReferences references;
 
     public Table() {
-        references = new MethodReferences() {
+        references = new DefaultReferences();
+    }
 
-            @Override
-            public Consumer<Player> getFunctionToInformPlayerOfHisTurn() {
-                return (Player p) -> {
-                };
-            }
-
-            @Override
-            public BiConsumer<Player, ArrayList<Card>> getFunctionToGivePlayersCards() {
-                return (Player p, ArrayList<Card> c) -> {
-                };
-            }
-
-            @Override
-            public Consumer<Card> getFunctionToAddCardToTable() {
-                return (Card c) -> {
-                };
-            }
-
-            @Override
-            public Consumer<Player> getFunctionToInformPlayersThatPlayerMadeMove() {
-                return (Player p) -> {
-                };
-            }
-
-            @Override
-            public Command getFunctionToNewTurn() {
-                return () -> {
-                };
-            }
-
-            @Override
-            public Command getFunctionToEndHand() {
-                return () -> {
-                };
-            }
-        };
+    public void setReferences(MethodReferences references) {
+        this.references = references;
     }
 
     public Table(MethodReferences references) {
@@ -155,14 +119,14 @@ public class Table {
         for (Player player : players) {
             player.getHoleCards().add(deck.pop());
             player.getHoleCards().add(deck.pop());
+            references.getFunctionToGivePlayersCards().accept(player, player.getHoleCards());
         }
     }
 
     public void prepareNextMove() {
         references.getFunctionToInformPlayersThatPlayerMadeMove().accept(getCurrentPlayer());
         if (checkIfOnlyOnePlayerNotFolded()) {
-            giveAllChipsToPlayer(getFirstPlayerWhoDoesntFold());
-            startNewHand();
+            endHand();
             return;
         } else if (checkIfAllPlayersExceptOneAreAllIn()) {
             while (endTurn()) {
@@ -196,7 +160,6 @@ public class Table {
         if (status == null) {
             return false;
         }
-
 
         switch (nextStatus) {
         case FLOP:
@@ -361,16 +324,6 @@ public class Table {
         players.removeIf(p -> p.numberOfChips == 0);
     }
 
-    private void giveAllChipsToPlayer(Player player) {
-        for (Pot pot : allPots) {
-            player.numberOfChips += pot.chips;
-        }
-    }
-
-    private Player getFirstPlayerWhoDoesntFold() {
-        return (Player) players.stream().filter(p -> p.isPlaying == true).limit(1).toArray()[0];
-    }
-
     private boolean checkIfOnlyOnePlayerNotFolded() {
         int numberOfPlayersNotFolded = 0;
         for (Player player : players) {
@@ -385,22 +338,10 @@ public class Table {
     }
 
     private boolean checkIfAllPlayersMakeActionThatAllowsToNextTurn() {
-        /*int numberOfPeopleWhoRaisedOrBetted = 0;
-        for (Player player : players) {
-            if (!player.isPlaying)
-                continue;
-            if (player.lastAction == null || player.lastAction == Actions.BIG_BLIND) {
-                return false;
-            }
-            if (player.lastAction == Actions.RAISE || player.lastAction == Actions.BET) {
-                numberOfPeopleWhoRaisedOrBetted++;
-            }
-        }*/
         for (Player p : players) {
             if (p.isPlayingThisTurn)
                 return false;
         }
-        //return numberOfPeopleWhoRaisedOrBetted < 2;
         return true;
     }
 
@@ -418,5 +359,10 @@ public class Table {
         }
 
         return (players.size() - numberOfFoldedPlayers - numberOfAllInPlayers) == 1;
+    }
+
+    public void setBlinds(int smallBlind, int bigBlind) {
+        this.smallBlind = smallBlind;
+        this.bigBlind = bigBlind;
     }
 }
