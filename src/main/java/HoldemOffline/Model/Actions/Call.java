@@ -15,7 +15,7 @@ public class Call extends Action {
             throw new InvalidTableState();
         }
 
-        if (player.numberOfChipsNeededToCall() >= player.numberOfChips) {
+        if (player.numberOfChipsNeededToCall() > player.numberOfChips) {
             throw new NotEnoughChips();
         }
 

@@ -29,8 +29,13 @@ public class Raise extends Action {
             howMany -= p.maxBet;
         }
 
-        if (player.numberOfChipsNeededToCall() + howMany >= player.numberOfChips) {
+        if (player.numberOfChipsNeededToCall() + howMany > player.numberOfChips) {
             throw new NotEnoughChips();
+        }
+
+        if (player.numberOfChipsNeededToCall() + howMany == player.numberOfChips) {
+            new AllIn().make(player);
+            return;
         }
 
         for (Pot p : player.table.currentTurnPots) {

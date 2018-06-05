@@ -14,6 +14,12 @@ public class AllIn extends Action {
 
     @Override
     protected void make(Player player) throws ActionException {
+        if (player.table.mainPot == null) {
+            player.table.mainPot = new Pot();
+            player.table.currentTurnPots.add(player.table.mainPot);
+            player.table.allPots.add(player.table.mainPot);
+        }
+
         Pot newPot = null;
 
         List<Pot> temp = new ArrayList<>(player.table.allPots);

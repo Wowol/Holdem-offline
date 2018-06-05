@@ -231,6 +231,13 @@ public class Table {
 
     private void giveWinningsToPlayers() {
         for (Pot pot : allPots) {
+            if (pot.players.size() == 0) {
+                continue;
+            }
+            if (pot.players.size() == 1) {
+                ((Player)pot.players.keySet().toArray()[0]).numberOfChips += pot.chips;
+                continue;
+            }
             TreeMap<Hand, Player> handToPlayer = new TreeMap<>();
             for (Player player : pot.players.keySet()) {
                 handToPlayer.put(player.currentBestHand, player);
@@ -358,7 +365,7 @@ public class Table {
             }
         }
 
-        return (players.size() - numberOfFoldedPlayers - numberOfAllInPlayers) == 1;
+        return (players.size() - numberOfFoldedPlayers - numberOfAllInPlayers) <= 1;
     }
 
     public void setBlinds(int smallBlind, int bigBlind) {
