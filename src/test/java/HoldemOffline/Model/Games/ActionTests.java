@@ -97,7 +97,36 @@ public class ActionTests {
                 "player 4: 50\n" +
                 "player 2: 50\n" +
                 "player 3: 50\n" +
-                "player 1: 50" + "\n\n", TestFunctions.printAllPots(table));
+                "player 1: 50\n" + "\n", TestFunctions.printAllPots(table));
         System.out.println(TestFunctions.printAllPots(table));
+    }
+
+    @Test
+    public void test3() throws ActionException{
+        table = new Table();
+        p1 = new Player(table);
+        p1.numberOfChips = 500;
+        p2 = new Player(table);
+        p2.numberOfChips = 500;
+        p3 = new Player(table);
+        p3.numberOfChips = 500;
+        table.players.addAll(Arrays.asList(p1, p2, p3));
+        table.smallBlind = 10;
+        table.bigBlind = 20;
+        table.startGame(0);
+
+        p1.makeAction(Actions.All_IN);
+        p2.makeAction(Actions.FOLD);
+        System.out.println(TestFunctions.printAllPots(table));
+        p3.makeAction(Actions.FOLD);
+
+        assertEquals(510, p1.numberOfChips);
+        assertEquals(490, p2.numberOfChips);
+        assertEquals(470, p3.numberOfChips);
+    }
+
+    @Test
+    public void test4() throws ActionException {
+
     }
 }

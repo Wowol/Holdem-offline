@@ -21,12 +21,17 @@ public class Bet extends Action {
             throw new InvalidTableState();
         }
 
-        if (player.numberOfChips <= howMany) {
+        if (player.numberOfChips < howMany) {
             throw new NotEnoughChips();
         }
 
         if (player.table.bigBlind > howMany) {
             throw new InvalidTableState();
+        }
+
+        if (howMany == player.numberOfChips) {
+            new AllIn().make(player);
+            return;
         }
 
         player.numberOfChips -= howMany;
