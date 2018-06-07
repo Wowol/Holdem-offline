@@ -264,7 +264,7 @@ public class Table {
 
     private int getFirstPlayingPlayerIndexAfterCurrent() {
         for (int x = currentIndex + 1; x < players.size() + currentIndex; x++) {
-            if (players.get(x).isPlaying == true) {
+            if (players.get(x).isPlaying) {
                 return x;
             }
         }

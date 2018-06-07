@@ -24,6 +24,8 @@ public class Player {
 
     private List<Card> holeCards = new ArrayList<>();
 
+    public Player() {}
+
     public Player(Table table) {
         this.table = table;
     }
