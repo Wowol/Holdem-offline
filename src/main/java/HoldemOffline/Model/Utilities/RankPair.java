@@ -17,6 +17,6 @@ public class RankPair {
 
     public RankPair(Player player) {
         first = player.getHoleCards().get(0).getRank();
-        first = player.getHoleCards().get(1).getRank();
+        second = player.getHoleCards().get(1).getRank();
     }
 }
