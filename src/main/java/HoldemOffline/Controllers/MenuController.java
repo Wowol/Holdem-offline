@@ -3,8 +3,6 @@ package HoldemOffline.Controllers;
 import java.io.IOException;
 
 import HoldemOffline.Model.ArtificialIntelligence;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import HoldemOffline.Controls.BotPane;
 import HoldemOffline.Model.App;
@@ -27,7 +25,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class MenuController {
-    private static final Logger log = LoggerFactory.getLogger(App.class);
 
     @FXML
     private HBox botsBox;

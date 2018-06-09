@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
+import HoldemOffline.Model.Actions.Actions;
 import HoldemOffline.Model.Utilities.Command;
+import HoldemOffline.Model.Utilities.TriConsumer;
 
 public class DefaultReferences implements MethodReferences {
 
@@ -27,8 +29,8 @@ public class DefaultReferences implements MethodReferences {
     }
 
     @Override
-    public Consumer<Player> getFunctionToInformPlayersThatPlayerMadeMove() {
-        return (Player p) -> {
+    public TriConsumer<Player, Actions, Integer> getFunctionToInformPlayersThatPlayerMadeMove() {
+        return (Player p, Actions a, Integer i) -> {
         };
     }
 

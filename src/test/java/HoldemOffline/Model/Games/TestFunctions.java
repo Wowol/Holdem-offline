@@ -1,5 +1,6 @@
 package HoldemOffline.Model.Games;
 
+import HoldemOffline.Model.Player;
 import HoldemOffline.Model.Pot;
 import HoldemOffline.Model.Table;
 
@@ -11,7 +12,7 @@ public class TestFunctions {
         for (Pot p : table.allPots) {
             wyn.append("MAXBET: " + p.maxBet + "\n");
             wyn.append("CHIPS: " + p.chips + "\n");
-            for (Map.Entry pl : p.players.entrySet()) {
+            for (Map.Entry<Player, Integer> pl : p.players.entrySet()) {
                 wyn.append("player " + (table.players.indexOf(pl.getKey())+1) + ": " + pl.getValue() + "\n");
             }
             wyn.append("\n");

@@ -9,7 +9,7 @@ import HoldemOffline.Model.Actions.Actions;
 import HoldemOffline.Model.Actions.Exceptions.ActionException;
 import HoldemOffline.Model.Utilities.CircularList;
 
-public class Table {
+public class Table implements Runnable {
 
     private static final int FLOP_NUMBER_CARDS = 3;
     private static final int TURN_NUMBER_CARDS = 1;
@@ -27,6 +27,8 @@ public class Table {
 
     public int smallBlind;
     public int bigBlind;
+
+    private boolean payingBlinds;
 
     public TableStatus status;
 
@@ -124,7 +126,14 @@ public class Table {
     }
 
     public void prepareNextMove() {
-        references.getFunctionToInformPlayersThatPlayerMadeMove().accept(getCurrentPlayer());
+        Actions lastAction;
+        if (payingBlinds)
+            lastAction = getCurrentPlayer().lastAction == Actions.BET ? Actions.SMALL_BLIND : Actions.BIG_BLIND;
+        else
+            lastAction = getCurrentPlayer().lastAction;
+
+        references.getFunctionToInformPlayersThatPlayerMadeMove().accept(getCurrentPlayer(), lastAction,
+                getCurrentPlayer().lastBetRaiseValue);
         if (checkIfOnlyOnePlayerNotFolded()) {
             endHand();
             return;
@@ -143,7 +152,8 @@ public class Table {
             currentIndex = getFirstPlayingPlayerIndexAfterCurrent();
         }
 
-        references.getFunctionToInformPlayerOfHisTurn().accept(getCurrentPlayer());
+        if (!payingBlinds)
+            references.getFunctionToInformPlayerOfHisTurn().accept(getCurrentPlayer());
     }
 
     // Return true if we are still at same hand, false when hand is over
@@ -235,7 +245,7 @@ public class Table {
                 continue;
             }
             if (pot.players.size() == 1) {
-                ((Player)pot.players.keySet().toArray()[0]).numberOfChips += pot.chips;
+                ((Player) pot.players.keySet().toArray()[0]).numberOfChips += pot.chips;
                 continue;
             }
             TreeMap<Hand, Player> handToPlayer = new TreeMap<>();
@@ -294,15 +304,18 @@ public class Table {
     }
 
     private void payBlinds() {
+        payingBlinds = true;
         try {
             paySmallBlind();
             payBigBlind();
             maxBetInCurrentTurn = bigBlind;
+            payingBlinds = false;
         } catch (ActionException e) {
             // This shouldn't happen - blinds players can always go allin (if chips > 0)
             e.printStackTrace();
             throw new RuntimeException();
         }
+
     }
 
     private void paySmallBlind() throws ActionException {
@@ -375,7 +388,6 @@ public class Table {
         this.bigBlind = bigBlind;
     }
 
-
     public int getNumberOfChipsOnTable() {
         int wyn = 0;
 
@@ -384,5 +396,10 @@ public class Table {
         }
 
         return wyn;
+    }
+
+    @Override
+    public void run() {
+        startGame();
     }
 }

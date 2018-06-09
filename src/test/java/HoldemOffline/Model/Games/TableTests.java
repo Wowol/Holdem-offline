@@ -1,6 +1,5 @@
 package HoldemOffline.Model.Games;
 
-import HoldemOffline.Model.Action;
 import HoldemOffline.Model.Actions.Actions;
 import HoldemOffline.Model.Actions.Exceptions.ActionException;
 import HoldemOffline.Model.Player;
