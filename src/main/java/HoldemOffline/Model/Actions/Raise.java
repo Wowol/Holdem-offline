@@ -90,7 +90,7 @@ public class Raise extends Action {
             return null;
         }
 
-        return new MinMax(player.table.maxBetInCurrentTurn * 2,
+        return new MinMax(Math.max(player.table.maxBetInCurrentTurn, player.table.bigBlind) * 2,
                 player.numberOfChips - player.numberOfChipsNeededToCall() + player.table.maxBetInCurrentTurn);
     }
 

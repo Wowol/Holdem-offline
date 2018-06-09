@@ -9,6 +9,22 @@ import java.util.Map;
 import java.util.Random;
 
 public class ArtificialIntelligence extends Player {
+    private static final int preFlopHandStrengthValue = 50;
+
+    private static final int flopHandStrengthValue = 15;
+    private static final int flopBestHandValue = 25;
+    private static final int flopHighestCardValue = 10;
+
+    private static final int turnHandStrengthValue = 7;
+    private static final int turnBestHandValue = 33;
+    private static final int turnHighestCardValue = 10;
+
+    private static final int riverBestHandValue = 40;
+    private static final int riverHighestCardValue = 10;
+
+    private static final int aggresionValue = 20;
+    private static final int chipsValue = 30;
+
     private static Map<RankPair, Integer> HandStrength = new HashMap<>();
 
     static {
@@ -84,87 +100,98 @@ public class ArtificialIntelligence extends Player {
         this.aggression = aggression;
     }
 
-    public void makeAction() throws ActionException {
-        int s = 0;
-        RankPair myHand = new RankPair(this);
-        HandStrength.putIfAbsent(myHand, 7);
-
-        System.out.println(table.status);
-        System.out.println(myHand);
-        System.out.println(HandStrength.get(myHand));
+    private int calculateStrength(RankPair myHand) {
+        int strength = 0;
 
         switch (table.status) {
             case PRE_FLOP:
-                s += 100 * (7 - HandStrength.get(myHand)) / 7;
+                strength = calculatePreFlopSrength(myHand);
                 break;
             case FLOP:
-                s += 30 * (7 - HandStrength.get(myHand)) / 7;
-                s += 50 * currentBestHand.getHandName().ordinal() / 9;
-                s += 20 * currentBestHand.getHandCards().get(0).getRank().ordinal() / 13;
+                strength = calculateFlopSrength(myHand);
                 break;
             case TURN:
-                s += 15 * (7 - HandStrength.get(myHand)) / 7;
-                s += 65 * currentBestHand.getHandName().ordinal() / 9;
-                s += 20 * currentBestHand.getHandCards().get(0).getRank().ordinal() / 13;
+                strength = calculateTurnSrength(myHand);
                 break;
             case RIVER:
-                s += 80 * currentBestHand.getHandName().ordinal() / 9;
-                s += 20 * currentBestHand.getHandCards().get(0).getRank().ordinal() / 13;
+                strength = calculateRiverSrength();
         }
 
-        s *= 0.5;
-        s += 20 * aggression;
-        s += 30 * (1 - (numberOfChipsNeededToCall() / (numberOfChipsNeededToCall() + table.getNumberOfChipsOnTable())));
+        strength += aggresionValue * aggression;
+        strength += chipsValue * (1 - (numberOfChipsNeededToCall() / (numberOfChipsNeededToCall() + table.getNumberOfChipsOnTable())));
 
-        System.out.println("s: " + s);
-        System.out.println("neededchips: " + numberOfChipsNeededToCall());
+        return strength;
+    }
 
-        if (s <= 35) {
-            if (new Check().isPossible(this)) {
-                makeAction(Actions.CHECK);
-            } else {
-                makeAction(Actions.FOLD);
-            }
+    private int calculatePreFlopSrength(RankPair myHand) {
+        return preFlopHandStrengthValue * (7 - HandStrength.get(myHand)) / 7;
+    }
+
+    private int calculateFlopSrength(RankPair myHand) {
+        return (flopHandStrengthValue * (7 - HandStrength.get(myHand)) / 7) +
+                (flopBestHandValue * currentBestHand.getHandName().ordinal() / 9) +
+                (flopHighestCardValue * currentBestHand.getHandCards().get(0).getRank().ordinal() / 13);
+    }
+
+    private int calculateTurnSrength(RankPair myHand) {
+        return (turnHandStrengthValue * (7 - HandStrength.get(myHand)) / 7) +
+                (turnBestHandValue * currentBestHand.getHandName().ordinal() / 9) +
+                (turnHighestCardValue * currentBestHand.getHandCards().get(0).getRank().ordinal() / 13);
+    }
+
+    private int calculateRiverSrength() {
+        return (riverBestHandValue * currentBestHand.getHandName().ordinal() / 9) +
+                (riverHighestCardValue * currentBestHand.getHandCards().get(0).getRank().ordinal() / 13);
+    }
+
+    private void makeAction(int strength) throws ActionException {
+        if (strength <= 35) {
+            makeCheckFoldAction(strength);
             return;
         }
 
-        if (s <= 60) {
-            if (new Call().isPossible(this)) {
-                System.out.println("CALL");
-                makeAction(Actions.CALL);
-            } else if (new Check().isPossible(this)) {
-                System.out.println("CHECK");
-                makeAction(Actions.CHECK);
-            } else {
-                System.out.println("ALLIN1");
-                makeAction(Actions.All_IN);
-            }
+        if (strength <= 60) {
+            makeCallAllInAction(strength);
             return;
         }
 
-        StringBuilder wyn = new StringBuilder();
-        for (Pot p : table.allPots) {
-            wyn.append("MAXBET: " + p.maxBet + "\n");
-            wyn.append("CHIPS: " + p.chips + "\n");
-            for (Map.Entry pl : p.players.entrySet()) {
-                wyn.append("player " + (table.players.indexOf(pl.getKey())+1) + ": " + pl.getValue() + "\n");
-            }
-            wyn.append("\n");
-        }
-        System.out.println(wyn);
+        makeRaiseAllInAction(strength);
+    }
 
-        int howMany = new Random().nextInt(s - 50) + Math.max(table.maxBetInCurrentTurn, table.bigBlind) * 2;
-        System.out.println("howmzny: " + howMany);
-
-        if (new Raise(howMany).isPossible(this)) {
-            System.out.println("RAISE");
-            makeAction(Actions.RAISE, howMany);
-        } else if (new Bet(howMany).isPossible(this)) {
-            System.out.println("BET");
-            makeAction(Actions.BET, howMany);
+    private void makeCheckFoldAction(int strength) throws ActionException {
+        if (new Check().isPossible(this)) {
+            makeAction(Actions.CHECK);
         } else {
-            System.out.println("ALLIN2");
+            makeAction(Actions.FOLD);
+        }
+    }
+
+    private void makeCallAllInAction(int strength) throws ActionException {
+        if (new Call().isPossible(this)) {
+            makeAction(Actions.CALL);
+        } else if (new Check().isPossible(this)) {
+            makeAction(Actions.CHECK);
+        } else {
             makeAction(Actions.All_IN);
         }
+    }
+
+    private void makeRaiseAllInAction(int strength) throws ActionException {
+        int howMany = new Random().nextInt(strength - 50) + Math.max(table.maxBetInCurrentTurn, table.bigBlind) * 2;
+
+        if (new Raise(howMany).isPossible(this)) {
+            makeAction(Actions.RAISE, howMany);
+        } else if (new Bet(howMany).isPossible(this)) {
+            makeAction(Actions.BET, howMany);
+        } else {
+            makeAction(Actions.All_IN);
+        }
+    }
+
+    public void makeAction() throws ActionException {
+        RankPair myHand = new RankPair(this);
+        HandStrength.putIfAbsent(myHand, 7);
+
+        makeAction(calculateStrength(myHand));
     }
 }
