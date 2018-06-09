@@ -183,6 +183,7 @@ public class GameController {
         if (player instanceof ArtificialIntelligence && player.table.status != null) {
             try {
                 ((ArtificialIntelligence) player).makeAction();
+                return;
             } catch (ActionException e) {
                 e.printStackTrace();
             }
