@@ -2,6 +2,7 @@ package HoldemOffline.Controllers;
 
 import java.io.IOException;
 
+import HoldemOffline.Model.ArtificialIntelligence;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -85,7 +86,7 @@ public class MenuController {
             BotPane botPane = (BotPane) node;
             if (!botPane.botChoosen)
                 return;
-            Player newAIPlayer = new Player(table);
+            Player newAIPlayer = new ArtificialIntelligence(table, 0.5);
             newAIPlayer.numberOfChips = numberOfChips;
             newAIPlayer.avatar = botPane.avatarImage;
 

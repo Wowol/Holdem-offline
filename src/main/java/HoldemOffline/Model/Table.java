@@ -264,7 +264,7 @@ public class Table {
 
     private int getFirstPlayingPlayerIndexAfterCurrent() {
         for (int x = currentIndex + 1; x < players.size() + currentIndex; x++) {
-            if (players.get(x).isPlaying == true) {
+            if (players.get(x).isPlaying) {
                 return x;
             }
         }
@@ -355,6 +355,7 @@ public class Table {
     private boolean checkIfAllPlayersExceptOneAreAllIn() {
         int numberOfFoldedPlayers = 0;
         int numberOfAllInPlayers = 0;
+        int numberOfCallPlayers = 0;
         for (Player player : players) {
             if (player.isFolded()) {
                 numberOfFoldedPlayers++;
@@ -362,14 +363,26 @@ public class Table {
                 numberOfAllInPlayers++;
             } else if (player.lastAction == null || player.lastAction == Actions.BIG_BLIND) {
                 return false;
+            } else if (player.lastAction == Actions.CALL && !player.isPlayingThisTurn) {
+                numberOfCallPlayers++;
             }
         }
-
-        return (players.size() - numberOfFoldedPlayers - numberOfAllInPlayers) <= 1;
+        return (players.size() - numberOfFoldedPlayers - numberOfAllInPlayers) <= 1 && numberOfCallPlayers <= 1;
     }
 
     public void setBlinds(int smallBlind, int bigBlind) {
         this.smallBlind = smallBlind;
         this.bigBlind = bigBlind;
+    }
+
+
+    public int getNumberOfChipsOnTable() {
+        int wyn = 0;
+
+        for (Pot p : allPots) {
+            wyn += p.chips;
+        }
+
+        return wyn;
     }
 }

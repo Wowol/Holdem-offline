@@ -1,5 +1,6 @@
 package HoldemOffline.Controllers;
 
+import HoldemOffline.Model.*;
 import javafx.beans.value.*;
 import javafx.fxml.FXML;
 import javafx.scene.layout.*;
@@ -14,11 +15,6 @@ import org.slf4j.LoggerFactory;
 import javafx.scene.image.Image;
 import javafx.scene.control.*;
 
-import HoldemOffline.Model.App;
-import HoldemOffline.Model.Card;
-import HoldemOffline.Model.MethodReferences;
-import HoldemOffline.Model.Player;
-import HoldemOffline.Model.Table;
 import HoldemOffline.Model.Actions.*;
 import HoldemOffline.Model.Actions.Exceptions.ActionException;
 import HoldemOffline.Model.Utilities.Command;
@@ -184,6 +180,15 @@ public class GameController {
     }
 
     public void yourTurn(Player player) {
+        if (player instanceof ArtificialIntelligence && player.table.status != null) {
+            try {
+                ((ArtificialIntelligence) player).makeAction();
+                return;
+            } catch (ActionException e) {
+                e.printStackTrace();
+            }
+        }
+
         Raise.MinMax minMax = Raise.getMinMaxRaiseValues(player);
         if (minMax != null) {
             makeRaiseButton(minMax);
