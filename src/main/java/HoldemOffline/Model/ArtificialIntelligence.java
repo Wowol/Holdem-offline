@@ -1,10 +1,7 @@
 package HoldemOffline.Model;
 
-import HoldemOffline.Model.Actions.Actions;
-import HoldemOffline.Model.Actions.Call;
-import HoldemOffline.Model.Actions.Check;
+import HoldemOffline.Model.Actions.*;
 import HoldemOffline.Model.Actions.Exceptions.ActionException;
-import HoldemOffline.Model.Actions.Raise;
 import HoldemOffline.Model.Utilities.RankPair;
 
 import java.util.HashMap;
@@ -76,6 +73,8 @@ public class ArtificialIntelligence extends Player {
         HandStrength.put(new RankPair(Rank.SIX, Rank.FOUR), 6);
         HandStrength.put(new RankPair(Rank.FIVE, Rank.THREE), 6);
         HandStrength.put(new RankPair(Rank.FOUR, Rank.THREE), 6);
+
+        System.out.println(HandStrength);
     }
 
     private double aggression;
@@ -85,30 +84,40 @@ public class ArtificialIntelligence extends Player {
         this.aggression = aggression;
     }
 
-    void makeAction() throws ActionException{
+    public void makeAction() throws ActionException {
         int s = 0;
+        RankPair myHand = new RankPair(this);
+        HandStrength.putIfAbsent(myHand, 7);
 
-        HandStrength.putIfAbsent(new RankPair(this), 7);
+        System.out.println(table.status);
+        System.out.println(myHand);
+        System.out.println(HandStrength.get(myHand));
 
         switch (table.status) {
             case PRE_FLOP:
-                s += 100 * (7 - HandStrength.get(new RankPair(this))) / 7;
+                s += 100 * (7 - HandStrength.get(myHand)) / 7;
+                break;
             case FLOP:
-                s += 30 * (7 - HandStrength.get(new RankPair(this))) / 7;
-                s += 50 * (10 - currentBestHand.getHandName().ordinal());
-                s += 20 * (13 - currentBestHand.getHandCards().get(0).getRank().ordinal());
+                s += 30 * (7 - HandStrength.get(myHand)) / 7;
+                s += 50 * currentBestHand.getHandName().ordinal() / 9;
+                s += 20 * currentBestHand.getHandCards().get(0).getRank().ordinal() / 13;
+                break;
             case TURN:
-                s += 15 * (7 - HandStrength.get(new RankPair(this))) / 7;
-                s += 65 * (10 - currentBestHand.getHandName().ordinal());
-                s += 20 * (13 - currentBestHand.getHandCards().get(0).getRank().ordinal());
+                s += 15 * (7 - HandStrength.get(myHand)) / 7;
+                s += 65 * currentBestHand.getHandName().ordinal() / 9;
+                s += 20 * currentBestHand.getHandCards().get(0).getRank().ordinal() / 13;
+                break;
             case RIVER:
-                s += 80 * (10 - currentBestHand.getHandName().ordinal());
-                s += 20 * (13 - currentBestHand.getHandCards().get(0).getRank().ordinal());
+                s += 80 * currentBestHand.getHandName().ordinal() / 9;
+                s += 20 * currentBestHand.getHandCards().get(0).getRank().ordinal() / 13;
         }
 
         s *= 0.5;
         s += 20 * aggression;
-        s += 30 * (1 - numberOfChipsNeededToCall() / (numberOfChipsNeededToCall() + chipsOnTable()));
+        s += 30 * (1 - (numberOfChipsNeededToCall() / (numberOfChipsNeededToCall() + table.getNumberOfChipsOnTable())));
+
+        System.out.println("s: " + s);
+        System.out.println("neededchips: " + numberOfChipsNeededToCall());
 
         if (s <= 35) {
             if (new Check().isPossible(this)) {
@@ -121,35 +130,41 @@ public class ArtificialIntelligence extends Player {
 
         if (s <= 60) {
             if (new Call().isPossible(this)) {
+                System.out.println("CALL");
                 makeAction(Actions.CALL);
+            } else if (new Check().isPossible(this)) {
+                System.out.println("CHECK");
+                makeAction(Actions.CHECK);
             } else {
+                System.out.println("ALLIN1");
                 makeAction(Actions.All_IN);
             }
             return;
         }
 
-        int howMany = new Random(s/10 - 6).nextInt();
-
-        if (Raise.getMinMaxRaiseValues(this) != null) {
-            howMany += Raise.getMinMaxRaiseValues(this).min;
-        } else {
-            howMany += table.bigBlind * 2;
+        StringBuilder wyn = new StringBuilder();
+        for (Pot p : table.allPots) {
+            wyn.append("MAXBET: " + p.maxBet + "\n");
+            wyn.append("CHIPS: " + p.chips + "\n");
+            for (Map.Entry pl : p.players.entrySet()) {
+                wyn.append("player " + (table.players.indexOf(pl.getKey())+1) + ": " + pl.getValue() + "\n");
+            }
+            wyn.append("\n");
         }
+        System.out.println(wyn);
+
+        int howMany = new Random().nextInt(s - 50) + Math.max(table.maxBetInCurrentTurn, table.bigBlind) * 2;
+        System.out.println("howmzny: " + howMany);
 
         if (new Raise(howMany).isPossible(this)) {
+            System.out.println("RAISE");
             makeAction(Actions.RAISE, howMany);
+        } else if (new Bet(howMany).isPossible(this)) {
+            System.out.println("BET");
+            makeAction(Actions.BET, howMany);
         } else {
+            System.out.println("ALLIN2");
             makeAction(Actions.All_IN);
         }
-    }
-
-    private int chipsOnTable() {
-        int wyn = 0;
-
-        for (Pot p : table.allPots) {
-            wyn += p.chips;
-        }
-
-        return wyn;
     }
 }

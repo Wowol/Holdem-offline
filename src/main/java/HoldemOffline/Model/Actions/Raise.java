@@ -70,12 +70,12 @@ public class Raise extends Action {
             return false;
         }
 
-        for (Pot p : player.table.currentTurnPots) {
-            howMany -= p.maxBet;
-        }
-
         if (howMany < player.table.maxBetInCurrentTurn * 2) {
             return false;
+        }
+
+        for (Pot p : player.table.currentTurnPots) {
+            howMany -= p.maxBet;
         }
 
         if (player.numberOfChipsNeededToCall() + howMany >= player.numberOfChips) {

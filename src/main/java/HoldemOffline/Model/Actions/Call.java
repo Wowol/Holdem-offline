@@ -48,19 +48,6 @@ public class Call extends Action {
             return false;
         }
 
-        int chipsNeeded = 0;
-
-        for (Pot p : player.table.currentTurnPots) {
-            int currentChips = p.players.get(player) != null ? p.players.get(player) : 0;
-            if (currentChips < p.maxBet) {
-                chipsNeeded += p.maxBet - currentChips;
-            }
-        }
-
-        if (chipsNeeded >= player.numberOfChips) {
-            return false;
-        }
-
         return true;
     }
 

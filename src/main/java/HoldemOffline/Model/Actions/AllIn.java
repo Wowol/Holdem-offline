@@ -107,6 +107,11 @@ public class AllIn extends Action {
                 player.table.mainPot.maxBet -= player.numberOfChips;
                 player.table.currentTurnPots.add(newPot);
                 player.table.allPots.add(newPot);
+
+                for (Player p : player.table.players) {
+                    if(p.isPlaying)
+                        p.isPlayingThisTurn = true;
+                }
             }
 
             newPot.maxBet = player.numberOfChips;
