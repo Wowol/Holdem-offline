@@ -184,7 +184,7 @@
                   <Insets right="50.0" />
                </padding>
             </AnchorPane>
-            <AnchorPane layoutX="414.0" layoutY="538.0" prefHeight="200.0" prefWidth="835.0">
+            <AnchorPane fx:id="buttonsPane" layoutX="414.0" layoutY="538.0" prefHeight="200.0" prefWidth="835.0" visible="false">
                <children>
                   <Button fx:id="foldButton" layoutX="718.0" layoutY="53.0" mnemonicParsing="false" prefHeight="94.0" prefWidth="175.0" styleClass="green" stylesheets="@styles/buttonstyle.css" text="Fold" />
                   <Button fx:id="callCheckButton" layoutX="526.0" layoutY="53.0" mnemonicParsing="false" prefHeight="94.0" prefWidth="175.0" styleClass="green" stylesheets="@styles/buttonstyle.css" text="Call" />

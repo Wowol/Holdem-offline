@@ -52,6 +52,12 @@ public enum Actions {
             BET.make(p, arg);
             p.lastAction = SMALL_BLIND;
         }
+
+        @Override
+        public String toString()
+        {
+            return "SMALL BLIND";
+        }
     },
 
     BIG_BLIND {
@@ -59,6 +65,12 @@ public enum Actions {
         public void make(Player p, int... arg) throws ActionException {
             RAISE.make(p, arg);
             p.lastAction = BIG_BLIND;
+        }
+
+        @Override
+        public String toString()
+        {
+            return "BIG BLIND";
         }
     };
 

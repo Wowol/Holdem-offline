@@ -3,13 +3,10 @@ package HoldemOffline.Model.Games;
 import HoldemOffline.Model.Actions.Actions;
 import HoldemOffline.Model.Actions.Exceptions.ActionException;
 import HoldemOffline.Model.Player;
-import HoldemOffline.Model.Pot;
 import HoldemOffline.Model.Table;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Arrays;
-import java.util.Map;
 
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;

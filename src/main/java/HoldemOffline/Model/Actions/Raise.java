@@ -25,6 +25,8 @@ public class Raise extends Action {
             throw new InvalidTableState();
         }
 
+        player.lastBetRaiseValue = howMany;
+
         for (Pot p : player.table.currentTurnPots) {
             howMany -= p.maxBet;
         }
@@ -57,7 +59,7 @@ public class Raise extends Action {
         player.numberOfChips -= howMany;
 
         for (Player p : player.table.players) {
-            if(p.isPlaying)
+            if (p.isPlaying)
                 p.isPlayingThisTurn = true;
         }
 

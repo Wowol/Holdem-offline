@@ -23,6 +23,7 @@ public class Player {
     public Image avatar;
 
     private List<Card> holeCards = new ArrayList<>();
+	public int lastBetRaiseValue;
 
     public Player() {}
 

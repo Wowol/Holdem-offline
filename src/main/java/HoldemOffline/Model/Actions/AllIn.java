@@ -6,7 +6,6 @@ import HoldemOffline.Model.Pot;
 import HoldemOffline.Model.Actions.Exceptions.ActionException;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -118,6 +117,8 @@ public class AllIn extends Action {
             newPot.players.put(player, player.numberOfChips);
             newPot.chips += player.numberOfChips;
         }
+
+        player.lastBetRaiseValue = player.numberOfChips;
 
         player.numberOfChips = 0;
 
