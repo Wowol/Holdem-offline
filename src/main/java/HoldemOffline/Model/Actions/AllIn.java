@@ -89,6 +89,11 @@ public class AllIn extends Action {
                 player.table.currentTurnPots.add(player.table.mainPot);
                 player.table.allPots.add(player.table.mainPot);
                 player.table.maxBetInCurrentTurn = player.numberOfChips;
+
+                for (Player p : player.table.players) {
+                    if(p.isPlaying)
+                        p.isPlayingThisTurn = true;
+                }
             } else {
                 for (Map.Entry<Player, Integer> p : player.table.mainPot.players.entrySet()) {
                     if (p.getValue() >= player.numberOfChips) {
@@ -106,11 +111,6 @@ public class AllIn extends Action {
                 player.table.mainPot.maxBet -= player.numberOfChips;
                 player.table.currentTurnPots.add(newPot);
                 player.table.allPots.add(newPot);
-
-                for (Player p : player.table.players) {
-                    if(p.isPlaying)
-                        p.isPlayingThisTurn = true;
-                }
             }
 
             newPot.maxBet = player.numberOfChips;

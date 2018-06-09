@@ -1,9 +1,6 @@
 package HoldemOffline.Model;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.TreeMap;
+import java.util.*;
 
 import HoldemOffline.Model.Actions.Actions;
 import HoldemOffline.Model.Actions.Exceptions.ActionException;
@@ -380,7 +377,7 @@ public class Table implements Runnable {
                 numberOfCallPlayers++;
             }
         }
-        return (players.size() - numberOfFoldedPlayers - numberOfAllInPlayers) <= 1 && numberOfCallPlayers <= 1;
+        return (players.size() - numberOfFoldedPlayers - numberOfAllInPlayers - numberOfCallPlayers) == 0 && numberOfCallPlayers <= 1;
     }
 
     public void setBlinds(int smallBlind, int bigBlind) {
