@@ -16,6 +16,7 @@ public class BotPane extends Pane {
     private Label selectAiLabel;
     private ImageView botAvatar;
 
+    public String BotName;
     public ChoiceBox<String> botChooser;
     public boolean botChoosen = false;
     public Image avatarImage;
@@ -76,6 +77,7 @@ public class BotPane extends Pane {
             public void changed(ObservableValue<? extends Number> ov, Number oldValue, Number newValue) {
                 selectAiLabel.setVisible(false);
                 setImageAvatar((String) botNameToAvatar.keySet().toArray()[newValue.intValue()]);
+                BotName = (String) botNameToAvatar.keySet().toArray()[newValue.intValue()];
                 botChoosen = true;
             }
         });

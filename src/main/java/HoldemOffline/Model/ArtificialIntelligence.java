@@ -171,8 +171,10 @@ public class ArtificialIntelligence extends Player {
             makeAction(Actions.CALL);
         } else if (new Check().isPossible(this)) {
             makeAction(Actions.CHECK);
-        } else {
+        } else if(strength >= 55) {
             makeAction(Actions.All_IN);
+        } else {
+            makeAction(Actions.FOLD);
         }
     }
 
@@ -183,8 +185,10 @@ public class ArtificialIntelligence extends Player {
             makeAction(Actions.RAISE, howMany);
         } else if (new Bet(howMany).isPossible(this)) {
             makeAction(Actions.BET, howMany);
-        } else {
+        } else if (strength >= 75 || !(new Call().isPossible(this))) {
             makeAction(Actions.All_IN);
+        } else {
+            makeAction(Actions.CALL);
         }
     }
 
