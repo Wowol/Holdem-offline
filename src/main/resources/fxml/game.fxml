@@ -16,20 +16,21 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="HoldemOffline.Controllers.GameController">
+<VBox maxHeight="768.0" maxWidth="1366.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="HoldemOffline.Controllers.GameController">
   <children>
     <MenuBar VBox.vgrow="NEVER">
       <menus>
-        <Menu mnemonicParsing="false" text="Help">
+        <Menu mnemonicParsing="false" text="Menu">
           <items>
-            <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
+            <MenuItem mnemonicParsing="false" onAction="#newGameClick" text="New game" />
+                  <MenuItem mnemonicParsing="false" onAction="#exitClick" text="Exit" />
           </items>
         </Menu>
       </menus>
     </MenuBar>
     <AnchorPane id="1" maxHeight="-1.0" maxWidth="-1.0" prefWidth="669.0" styleClass="root" stylesheets="@styles/backgroundgame.css" VBox.vgrow="ALWAYS">
          <children>
-            <AnchorPane fx:id="tableAnchorPane" layoutX="190.0" layoutY="-12.0" prefHeight="577.0" prefWidth="927.0" styleClass="root" stylesheets="@styles/backgroundgame.css">
+            <AnchorPane fx:id="tableAnchorPane" layoutX="131.0" prefHeight="577.0" prefWidth="927.0" styleClass="root" stylesheets="@styles/backgroundgame.css">
                <children>
                   <ImageView fitHeight="508.0" fitWidth="715.0" layoutX="106.0" layoutY="116.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -186,11 +187,11 @@
             </AnchorPane>
             <AnchorPane fx:id="buttonsPane" layoutX="414.0" layoutY="538.0" prefHeight="200.0" prefWidth="835.0" visible="false">
                <children>
-                  <Button fx:id="foldButton" layoutX="718.0" layoutY="53.0" mnemonicParsing="false" prefHeight="94.0" prefWidth="175.0" styleClass="green" stylesheets="@styles/buttonstyle.css" text="Fold" />
-                  <Button fx:id="callCheckButton" layoutX="526.0" layoutY="53.0" mnemonicParsing="false" prefHeight="94.0" prefWidth="175.0" styleClass="green" stylesheets="@styles/buttonstyle.css" text="Call" />
-                  <Button fx:id="betRaiseButton" layoutX="338.0" layoutY="53.0" mnemonicParsing="false" prefHeight="94.0" prefWidth="175.0" styleClass="green" stylesheets="@styles/buttonstyle.css" text="Raise" />
-                  <Slider fx:id="betSlider" blockIncrement="25.0" layoutX="42.0" layoutY="86.0" minorTickCount="25" prefHeight="31.0" prefWidth="274.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
-                  <TextField fx:id="betTextField" layoutX="42.0" layoutY="53.0" prefHeight="25.0" prefWidth="77.0" styleClass="orangeTextBox" stylesheets="@styles/textFieldStyle.css" />
+                  <Button fx:id="foldButton" layoutX="718.0" layoutY="120.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="175.0" styleClass="green" stylesheets="@styles/buttonstyle.css" text="Fold" />
+                  <Button fx:id="callCheckButton" layoutX="526.0" layoutY="120.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="175.0" styleClass="green" stylesheets="@styles/buttonstyle.css" text="Call" />
+                  <Button fx:id="betRaiseButton" layoutX="338.0" layoutY="120.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="175.0" styleClass="green" stylesheets="@styles/buttonstyle.css" text="Raise" />
+                  <Slider fx:id="betSlider" blockIncrement="25.0" layoutX="42.0" layoutY="130.0" minorTickCount="25" prefHeight="31.0" prefWidth="274.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
+                  <TextField fx:id="betTextField" layoutX="42.0" layoutY="90.0" prefHeight="25.0" prefWidth="77.0" styleClass="orangeTextBox" stylesheets="@styles/textFieldStyle.css" />
                </children>
             </AnchorPane>
          </children>

@@ -13,7 +13,8 @@ public class CardImageView extends ImageView {
 
     public CardImageView(Card c, int height, double opacity) {
         this.card = c;
-        Image image = new Image("/images/Cards/Faces/" + getCardFileName(c));
+        String url = c != null ? "/images/Cards/Faces/" + getCardFileName(c) : "/images/Cards/reverse.png";
+        Image image = new Image(url);
         setProporties(height, opacity);
         setImage(image);
     }
@@ -31,6 +32,7 @@ public class CardImageView extends ImageView {
     }
 
     private String getCardFileName(Card c) {
+
         int cardNumer = c.getRank().ordinal() + 2;
         String cardSuit = c.getSuit().toString().substring(0, 1).toUpperCase();
         return cardNumer + cardSuit + ".png";

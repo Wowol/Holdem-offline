@@ -63,6 +63,10 @@ public class TableTests {
         p1.makeAction(Actions.CHECK);
         p2.makeAction(Actions.CHECK);
         p1.makeAction(Actions.CHECK);
+        p2.makeAction(Actions.CHECK);
+        p1.makeAction(Actions.CHECK);
+
+        table.startNewHand();
 
         for (Player p : table.players) {
             assertFalse(p.numberOfChips == 0);
@@ -96,6 +100,8 @@ public class TableTests {
         assertEquals(30, table.mainPot.chips);
         p1.makeAction(Actions.FOLD);
         p2.makeAction(Actions.FOLD);
+        table.startNewHand();
+
         assertEquals(30, table.mainPot.chips);
         assertEquals(680, p1.numberOfChips);
         assertEquals(490, p2.numberOfChips);

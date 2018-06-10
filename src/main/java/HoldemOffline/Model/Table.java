@@ -89,6 +89,13 @@ public class Table implements Runnable {
     }
 
     public void startNewHand() {
+        if (players.size() == 1) {
+            return;
+        }
+
+        removePlayersWithNoChips();
+        removeAllCardsFromPlayers();
+
         deck.addCardsToDeck();
         deck.shuffle();
         giveCardsToPlayers();
@@ -227,13 +234,8 @@ public class Table implements Runnable {
 
     private void endHand() {
         giveWinningsToPlayers();
-        removeAllCardsFromPlayers();
-        removePlayersWithNoChips();
 
         references.getFunctionToEndHand().execute();
-
-        if (players.size() > 1)
-            startNewHand();
     }
 
     private void giveWinningsToPlayers() {
@@ -249,7 +251,7 @@ public class Table implements Runnable {
             for (Player player : pot.players.keySet()) {
                 handToPlayer.put(player.currentBestHand, player);
             }
-            Player bestPlayer = handToPlayer.firstEntry().getValue();
+            Player bestPlayer = handToPlayer.lastEntry().getValue();
             bestPlayer.numberOfChips += pot.chips;
         }
     }
@@ -377,7 +379,8 @@ public class Table implements Runnable {
                 numberOfCallPlayers++;
             }
         }
-        return (players.size() - numberOfFoldedPlayers - numberOfAllInPlayers - numberOfCallPlayers) == 0 && numberOfCallPlayers <= 1;
+        return (players.size() - numberOfFoldedPlayers - numberOfAllInPlayers - numberOfCallPlayers) == 0
+                && numberOfCallPlayers <= 1;
     }
 
     public void setBlinds(int smallBlind, int bigBlind) {

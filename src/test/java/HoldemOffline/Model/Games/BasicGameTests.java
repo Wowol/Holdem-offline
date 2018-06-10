@@ -182,6 +182,8 @@ public class BasicGameTests {
         p2.makeAction(Actions.FOLD);
         //p1.makeAction(Actions.CHECK);
 
+        table.startNewHand();
+
         assertEquals(p1.numberOfChips, 1150);
         assertEquals(p2.numberOfChips, 50);
         assertEquals(p3.numberOfChips, 270);

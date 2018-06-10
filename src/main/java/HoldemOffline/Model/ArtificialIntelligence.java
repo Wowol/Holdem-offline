@@ -22,8 +22,8 @@ public class ArtificialIntelligence extends Player {
     private static final int riverBestHandValue = 40;
     private static final int riverHighestCardValue = 10;
 
-    private static final int aggressionValue = 10;
-    private static final int chipsValue = 40;
+    private static final int aggressionValue = 40;
+    private static final int chipsValue = 10;
 
     private static Map<RankPair, Integer> HandStrength = new HashMap<>();
 
@@ -118,7 +118,7 @@ public class ArtificialIntelligence extends Player {
         }
 
         strength += aggressionValue * aggression;
-        strength += chipsValue * (1 - (numberOfChipsNeededToCall() / (numberOfChipsNeededToCall() + table.getNumberOfChipsOnTable())));
+        strength += chipsValue * (1 - (numberOfChipsNeededToCall() / (table.getNumberOfChipsOnTable())));
 
         return strength;
     }

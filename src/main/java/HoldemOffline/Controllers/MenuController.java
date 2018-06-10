@@ -14,7 +14,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 
-
 import javafx.scene.layout.HBox;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
@@ -105,14 +104,11 @@ public class MenuController {
             controller.startGame();
 
             Scene scene = new Scene(rootNode, 1280, 800);
-            Stage stage = new Stage();
-            stage.setTitle("Game");
-            stage.setScene(scene);
-            stage.show();
-            App.stage.close();
+            App.stage.setScene(scene);
+            App.stage.setTitle("Game");
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
+
 }
