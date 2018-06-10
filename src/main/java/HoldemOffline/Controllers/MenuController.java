@@ -1,6 +1,8 @@
 package HoldemOffline.Controllers;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import HoldemOffline.Model.ArtificialIntelligence;
 
@@ -24,6 +26,14 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class MenuController {
+    private static Map<String, Double> BotAggression = new HashMap<>();
+
+    static {
+        BotAggression.put("Angry", 0.8);
+        BotAggression.put("Happy", 0.7);
+        BotAggression.put("Proud", 0.2);
+        BotAggression.put("Homo", 0.0);
+    }
 
     @FXML
     private HBox botsBox;
@@ -82,7 +92,7 @@ public class MenuController {
             BotPane botPane = (BotPane) node;
             if (!botPane.botChoosen)
                 return;
-            Player newAIPlayer = new ArtificialIntelligence(table, 0.5);
+            Player newAIPlayer = new ArtificialIntelligence(table, BotAggression.get(botPane.BotName));
             newAIPlayer.numberOfChips = numberOfChips;
             newAIPlayer.avatar = botPane.avatarImage;
 
