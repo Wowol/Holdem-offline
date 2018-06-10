@@ -24,7 +24,6 @@ public class PlayerCardsHBox extends HBox {
         getChildren().clear();
         for (Card card : cards) {
             ImageView cardView = new CardImageView(card, 80);
-            cardView.setId(card.toString());
             getChildren().add(cardView);
         }
     }

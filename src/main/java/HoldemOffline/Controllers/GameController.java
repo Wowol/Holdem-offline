@@ -1,19 +1,29 @@
 package HoldemOffline.Controllers;
 
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.stage.Stage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import HoldemOffline.Model.*;
 import javafx.beans.value.*;
 import javafx.fxml.FXML;
 import javafx.scene.layout.*;
 
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
-
 import javafx.scene.control.*;
 
+import javafx.event.ActionEvent;
 import HoldemOffline.Model.Actions.*;
 import HoldemOffline.Model.Actions.Exceptions.ActionException;
 import HoldemOffline.Model.Utilities.Command;
@@ -28,6 +38,10 @@ public class GameController {
     private static final double TABLE_CARD_HEIGHT = 112.0;
 
     private static final int AI_WAIT_MILISECONDS = 1000;
+
+    private static final double FOLD_OPACITY = 0.3;
+
+    private static final boolean SHOW_AI_CARDS = false;
 
     private ReentrantLock lock = new ReentrantLock();
 
@@ -75,6 +89,9 @@ public class GameController {
 
     @FXML
     private HBox tableCardsBox;
+
+    @FXML
+    private Label potLabel;
 
     private Table table;
 
@@ -130,12 +147,6 @@ public class GameController {
                     newTurn();
                 }
             }).start();
-            // Platform.runLater(new Runnable() {
-            // @Override
-            // public void run() {
-            // newTurn();
-            // }
-            // });
         }
 
         @Override
@@ -171,10 +182,12 @@ public class GameController {
     private void giveCardsToPlayer(Player player, List<Card> cards) {
         lock.lock();
         Platform.runLater(new Runnable() {
-
             @Override
             public void run() {
-                playerToPane.get(player).cardsBox.setCards(cards);
+                if (player instanceof ArtificialIntelligence && !SHOW_AI_CARDS)
+                    playerToPane.get(player).cardsBox.setCards(Arrays.asList(null, null));
+                else
+                    playerToPane.get(player).cardsBox.setCards(cards);
             }
         });
         lock.unlock();
@@ -198,7 +211,8 @@ public class GameController {
             @Override
             public void run() {
                 for (Player p : table.players) {
-                    playerToPane.get(p).clearActionLabelText();
+                    if (p.lastAction != Actions.All_IN)
+                        playerToPane.get(p).clearActionLabelText();
                 }
             }
         });
@@ -207,22 +221,47 @@ public class GameController {
 
     private void endHand() {
         lock.lock();
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                for (Player p : table.players) {
+                    if (!p.isFolded())
+                        playerToPane.get(p).cardsBox.setCards(p.getHoleCards());
+                }
+            }
+        });
+
         try {
-            Thread.sleep(2000);
+            Thread.sleep(7000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
                 for (Player p : table.players) {
                     playerToPane.get(p).setNumberOfChipsLabelText(p.numberOfChips);
                     playerToPane.get(p).clearActionLabelText();
+                    playerToPane.get(p).setOpacity(1);
+                    playerToPane.get(p).cardsBox.getChildren().clear();
+                }
+
+                for (Player d : playerToPane.keySet()) {
+                    if (!table.players.contains(d))
+                        playerToPane.get(d).setVisible(false);
                 }
                 tableCardsBox.getChildren().clear();
             }
         });
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         lock.unlock();
+
+        table.startNewHand();
     }
 
     private void addCardToTable(Card card) {
@@ -368,6 +407,11 @@ public class GameController {
                 }
                 playerToPane.get(player).setActionLabelText(text);
                 playerToPane.get(player).setNumberOfChipsLabelText(player.numberOfChips);
+
+                if (action == Actions.FOLD)
+                    playerToPane.get(player).setOpacity(FOLD_OPACITY);
+
+                potLabel.setText(Integer.toString(player.table.getNumberOfChipsOnTable()));
             }
         });
         lock.unlock();
@@ -457,6 +501,25 @@ public class GameController {
 
     private void onSliderDrag() {
         betTextField.setText(Integer.toString((int) betSlider.getValue()));
+    }
+
+    @FXML
+    protected void newGameClick(ActionEvent event) {
+        FXMLLoader loader = new FXMLLoader();
+        Parent rootNode;
+        try {
+            rootNode = (Parent) loader.load(getClass().getResourceAsStream("/fxml/menu.fxml"));
+            Scene scene = new Scene(rootNode, 1280, 800);
+            App.stage.setScene(scene);
+            App.stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    protected void exitClick(ActionEvent event) {
+        System.exit(0);
     }
 
 }
