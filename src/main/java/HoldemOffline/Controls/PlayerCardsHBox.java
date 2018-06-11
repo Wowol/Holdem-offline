@@ -23,7 +23,7 @@ public class PlayerCardsHBox extends HBox {
     public void setCards(List<Card> cards) {
         getChildren().clear();
         for (Card card : cards) {
-            ImageView cardView = new CardImageView(card, 80);
+            ImageView cardView = new CardImageView(card, card == null ? 80 : 100);
             getChildren().add(cardView);
         }
     }
