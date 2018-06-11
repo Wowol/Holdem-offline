@@ -13,7 +13,7 @@ public class App extends Application {
 
     private static final String FIRST_SCENE = "/fxml/menu.fxml";
 
-    private static final String TITLE = "Holdem Offline - hands";
+    private static final String TITLE = "Holdem Offline";
 
     private static final String ICON = "/images/malcin.png";
 
@@ -32,10 +32,11 @@ public class App extends Application {
         FXMLLoader loader = new FXMLLoader();
         Parent rootNode = (Parent) loader.load(getClass().getResourceAsStream(FIRST_SCENE));
         log.debug("Showing JFX scene");
-        Scene scene = new Scene(rootNode, 1366, 768);
+        Scene scene = new Scene(rootNode, 1100, 600);
         stage.setTitle(TITLE);
         stage.getIcons().add(new Image(ICON));
         stage.setScene(scene);
+        stage.setResizable(false);
         stage.show();
     }
 }

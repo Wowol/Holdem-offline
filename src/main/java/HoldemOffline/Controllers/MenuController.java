@@ -26,13 +26,15 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class MenuController {
-    private static Map<String, Double> BotAggression = new HashMap<>();
+    public static Map<String, Double> botAggression = new HashMap<>();
 
     static {
-        BotAggression.put("Angry", 0.8);
-        BotAggression.put("Happy", 0.7);
-        BotAggression.put("Proud", 0.2);
-        BotAggression.put("Homo", 0.0);
+        botAggression.put("Bad", 1.0);
+        botAggression.put("Angry", 0.9);
+        botAggression.put("Happy", 0.7);
+        botAggression.put("Proud", 0.5);
+        botAggression.put("Homo", 0.2);
+        botAggression.put("Retarded", -0.5);
     }
 
     @FXML
@@ -92,7 +94,7 @@ public class MenuController {
             BotPane botPane = (BotPane) node;
             if (!botPane.botChoosen)
                 return;
-            Player newAIPlayer = new ArtificialIntelligence(table, BotAggression.get(botPane.BotName));
+            Player newAIPlayer = new ArtificialIntelligence(table, botAggression.get(botPane.BotName));
             newAIPlayer.numberOfChips = numberOfChips;
             newAIPlayer.avatar = botPane.avatarImage;
 
@@ -116,6 +118,8 @@ public class MenuController {
             Scene scene = new Scene(rootNode, 1280, 800);
             App.stage.setScene(scene);
             App.stage.setTitle("Game");
+            App.stage.setResizable(true);
+
         } catch (IOException e) {
             e.printStackTrace();
         }

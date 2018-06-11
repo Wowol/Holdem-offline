@@ -4,6 +4,7 @@ import javafx.scene.image.ImageView;
 
 import java.util.HashMap;
 
+import HoldemOffline.Controllers.MenuController;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.scene.control.*;
@@ -41,10 +42,12 @@ public class BotPane extends Pane {
 
     final HashMap<String, String> botNameToAvatar = new HashMap<>();
     {
+        botNameToAvatar.put("Bad", "bad.png");
         botNameToAvatar.put("Angry", "angry.png");
         botNameToAvatar.put("Happy", "happy.png");
         botNameToAvatar.put("Proud", "proud.png");
         botNameToAvatar.put("Homo", "homo.png");
+        botNameToAvatar.put("Retarded", "retarded.png");
     }
 
     public BotPane() {
@@ -71,7 +74,6 @@ public class BotPane extends Pane {
     }
 
     private void initializeBotChooser() {
-
         botChooser = new ChoiceBox<String>(FXCollections.observableArrayList(botNameToAvatar.keySet()));
         botChooser.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
             public void changed(ObservableValue<? extends Number> ov, Number oldValue, Number newValue) {

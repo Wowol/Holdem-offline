@@ -12,6 +12,8 @@ public class Table implements Runnable {
     private static final int TURN_NUMBER_CARDS = 1;
     private static final int RIVER_NUMBER_CARDS = 1;
 
+    private static final int BLINDS_BIGGER_HANDS = 5;
+
     public List<Player> players = new CircularList<>();
     public List<Card> tableCards = new ArrayList<>();
     public List<Pot> allPots = new ArrayList<>();
@@ -24,6 +26,8 @@ public class Table implements Runnable {
 
     public int smallBlind;
     public int bigBlind;
+
+    private int handsPlayed = 0;
 
     private boolean payingBlinds;
 
@@ -236,6 +240,13 @@ public class Table implements Runnable {
         giveWinningsToPlayers();
 
         references.getFunctionToEndHand().execute();
+
+        handsPlayed++;
+        if (handsPlayed % BLINDS_BIGGER_HANDS == 0)
+        {
+            smallBlind *= 2;
+            bigBlind *= 2;
+        }
     }
 
     private void giveWinningsToPlayers() {

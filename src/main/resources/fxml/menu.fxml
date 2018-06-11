@@ -22,7 +22,7 @@
             <Label layoutX="521.0" layoutY="50.0" text="Big Blind:" />
             <TextField fx:id="smallBlindText" layoutX="578.0" layoutY="12.0" prefHeight="25.0" prefWidth="62.0" text="10" />
             <TextField fx:id="bigBlindText" layoutX="577.0" layoutY="46.0" prefHeight="25.0" prefWidth="62.0" text="20" />
-            <Button fx:id="startGameButton" layoutX="323.0" layoutY="435.0" mnemonicParsing="false" onAction="#startGameButtonClick" prefHeight="114.0" prefWidth="210.0" text="Start game" />
+            <Button fx:id="startGameButton" layoutX="450.0" layoutY="435.0" mnemonicParsing="false" onAction="#startGameButtonClick" prefHeight="114.0" prefWidth="210.0" text="Start game" />
             <Pane layoutX="116.0" layoutY="328.0" prefHeight="200.0" prefWidth="200.0" visible="false">
                <children>
                   <Label layoutX="74.0" layoutY="224.0" text="Select AI" />

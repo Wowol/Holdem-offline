@@ -36,6 +36,7 @@ import HoldemOffline.Controls.CardImageView;
 import HoldemOffline.Controls.PlayerPane;
 import javafx.scene.input.*;
 import javafx.application.Platform;
+import javafx.scene.control.Alert;
 
 public class GameController {
 
@@ -277,6 +278,7 @@ public class GameController {
                         playerToPane.get(d).setVisible(false);
                 }
                 tableCardsBox.getChildren().clear();
+
             }
         });
         try {
@@ -284,6 +286,19 @@ public class GameController {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+        Platform.runLater(new Runnable(){
+        
+            @Override
+            public void run() {
+                if (table.players.size() == 1 && !(table.players.get(0) instanceof ArtificialIntelligence)) {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setHeaderText("You won! Congrats!");
+                    alert.showAndWait();
+                }
+            }
+        });
+
         lock.unlock();
 
         table.startNewHand();
@@ -554,7 +569,8 @@ public class GameController {
         Parent rootNode;
         try {
             rootNode = (Parent) loader.load(getClass().getResourceAsStream("/fxml/menu.fxml"));
-            Scene scene = new Scene(rootNode, 1280, 800);
+            Scene scene = new Scene(rootNode, 1100, 600);
+            App.stage.setResizable(false);
             App.stage.setScene(scene);
             App.stage.show();
         } catch (IOException e) {
