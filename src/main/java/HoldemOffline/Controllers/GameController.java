@@ -21,9 +21,13 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
+import javax.swing.plaf.synth.SynthSliderUI;
+
 import javafx.scene.control.*;
 
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+
 import HoldemOffline.Model.Actions.*;
 import HoldemOffline.Model.Actions.Exceptions.ActionException;
 import HoldemOffline.Model.Utilities.Command;
@@ -94,6 +98,8 @@ public class GameController {
     private Label potLabel;
 
     private Table table;
+
+    private int currentBetValue;
 
     HashMap<Player, PlayerPane> playerToPane = new HashMap<>();
 
@@ -221,6 +227,23 @@ public class GameController {
 
     private void endHand() {
         lock.lock();
+
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        lock.unlock();
+
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        lock.lock();
+
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
@@ -232,10 +255,12 @@ public class GameController {
         });
 
         try {
-            Thread.sleep(7000);
+            Thread.sleep(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+        table.removePlayersWithNoChips();
 
         Platform.runLater(new Runnable() {
             @Override
@@ -376,6 +401,7 @@ public class GameController {
         betRaiseButton.setText("Raise");
         betSlider.setMin(minMax.min);
         betSlider.setMax(minMax.max);
+        betSlider.setValue(minMax.min);
     }
 
     private void makeBetButton(Player player) {
@@ -383,6 +409,7 @@ public class GameController {
         betRaiseButton.setText("Bet");
         betSlider.setMin(table.bigBlind);
         betSlider.setMax(player.numberOfChips);
+        betSlider.setValue(table.bigBlind);
     }
 
     private void makeCallButton() {
@@ -496,11 +523,29 @@ public class GameController {
     }
 
     private int getRaiseValue() {
-        return Integer.parseInt(betTextField.getText());
+        return currentBetValue;
     }
 
     private void onSliderDrag() {
-        betTextField.setText(Integer.toString((int) betSlider.getValue()));
+        if ((int) betSlider.getValue() != currentBetValue) {
+            String stringValue = Integer.toString((int) betSlider.getValue());
+            betTextField.setText(stringValue);
+            currentBetValue = (int) betSlider.getValue();
+        }
+
+    }
+
+    @FXML
+    protected void betTyped(KeyEvent event) {
+        String text = betTextField.getText() + event.getCharacter();
+        int number = Integer.parseInt(text);
+        if (betSlider.getMax() < number)
+            currentBetValue = (int) betSlider.getMax();
+        else if (betSlider.getMin() > number)
+            currentBetValue = (int) betSlider.getMin();
+        else
+            currentBetValue = number;
+        betSlider.setValue(currentBetValue);
     }
 
     @FXML

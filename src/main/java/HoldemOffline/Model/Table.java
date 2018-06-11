@@ -339,7 +339,7 @@ public class Table implements Runnable {
         }
     }
 
-    private void removePlayersWithNoChips() {
+    public void removePlayersWithNoChips() {
         players.removeIf(p -> p.numberOfChips == 0);
     }
 

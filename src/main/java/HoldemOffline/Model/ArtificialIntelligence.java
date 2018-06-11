@@ -118,7 +118,7 @@ public class ArtificialIntelligence extends Player {
         }
 
         strength += aggressionValue * aggression;
-        strength += chipsValue * (1 - (numberOfChipsNeededToCall() / (table.getNumberOfChipsOnTable())));
+        strength += chipsValue * (1 - (Math.min(numberOfChipsNeededToCall(), numberOfChips) / (table.getNumberOfChipsOnTable())));
 
         return strength;
     }

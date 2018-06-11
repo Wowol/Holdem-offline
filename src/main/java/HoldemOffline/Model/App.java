@@ -32,7 +32,7 @@ public class App extends Application {
         FXMLLoader loader = new FXMLLoader();
         Parent rootNode = (Parent) loader.load(getClass().getResourceAsStream(FIRST_SCENE));
         log.debug("Showing JFX scene");
-        Scene scene = new Scene(rootNode, 1280, 800);
+        Scene scene = new Scene(rootNode, 1366, 768);
         stage.setTitle(TITLE);
         stage.getIcons().add(new Image(ICON));
         stage.setScene(scene);
