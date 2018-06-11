@@ -6,6 +6,7 @@ import HoldemOffline.Model.Pot;
 import HoldemOffline.Model.Actions.Exceptions.ActionException;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -62,6 +63,13 @@ public class AllIn extends Action {
                     }
                 }
 
+                for (Iterator<Player> i = minPot.players.keySet().iterator(); i.hasNext();) {
+                    Player p = i.next();
+                    if (minPot.players.get(p) == 0) {
+                        i.remove();
+                    }
+                }
+
                 newPot.maxBet = player.numberOfChips;
                 newPot.players.put(player, player.numberOfChips);
                 newPot.chips += player.numberOfChips;
@@ -94,6 +102,7 @@ public class AllIn extends Action {
                     if(p.isPlaying)
                         p.isPlayingThisTurn = true;
                 }
+
             } else {
                 for (Map.Entry<Player, Integer> p : player.table.mainPot.players.entrySet()) {
                     if (p.getValue() >= player.numberOfChips) {
@@ -108,6 +117,9 @@ public class AllIn extends Action {
                         p.setValue(0);
                     }
                 }
+
+                player.table.mainPot.players.keySet().removeIf(p -> player.table.mainPot.players.get(p) == 0);
+
                 player.table.mainPot.maxBet -= player.numberOfChips;
                 player.table.currentTurnPots.add(newPot);
                 player.table.allPots.add(newPot);
@@ -126,6 +138,17 @@ public class AllIn extends Action {
         player.isAllIn = true;
 
         player.lastAction = Actions.All_IN;
+
+        StringBuilder wyn = new StringBuilder();
+        for (Pot p : player.table.allPots) {
+            wyn.append("MAXBET: " + p.maxBet + "\n");
+            wyn.append("CHIPS: " + p.chips + "\n");
+            for (Map.Entry<Player, Integer> pl : p.players.entrySet()) {
+                wyn.append("player " + (player.table.players.indexOf(pl.getKey())+1) + ": " + pl.getValue() + "\n");
+            }
+            wyn.append("\n");
+        }
+        System.out.println(wyn.toString());
 
     }
 
